@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: black;
+            color: white;
+            line-height: 24px;
+        }
+
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 50px 40px;
+        }
+
+        .hero {
+            outline: 1px solid #1c1c1c;
+            border-radius: 4px;
+            outline-offset: 19px;
+            margin-bottom: 40px;
+        }
+
+        .hero__heading {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .hero__desc {
+            color: #8e8e8e;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+
+        .heading {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 400;
+            margin-top: 25px;
+        }
+
+        .desc {
+            color: #949494;
+            font-size: 14px;
+            max-width: 800px;
+            font-weight: 400;
+        }
+
+        a {
+            text-decoration: underline;
+            color: #dfdfdf;
+        }
+
+        a:hover {
+            background: #282828;
+        }
+
+
+        .skill {
+            display: flex;
+            margin: 16px 0px;
+            background: #0c0c0c;
+            border-radius: 4px;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .skill__name {
+            color: #a2a2a2;
+            margin-right: 14px;
+        }
+
+        .skill__desc {
+            color: white;
+        }
+
+        .skill:hover {
+            background: #111;
+        }
+
+        .icon {
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            margin-right: 11px;
+            background: #171717;
+            padding: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .icon:active {
+            box-shadow: 0 0 0 4px #2e2e2e;
+        }
+
+
+        .internet {
+            display: flex;
+            margin-top: 10px;
+            flex-direction: column;
+        }
+
+        .internet__item {
+            text-decoration: none;
+            margin-bottom: 7px;
+            font-size: 14px;
+            color: white;
+            width: max-content;
+            border-radius: 4px;
+        }
+
+        .internet__item:hover {
+            background: none;
+            color: #a2a2a2;
+        }
+
+        .internet__item--glow {
+            background: rgb(131, 58, 180);
+            background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+            background-clip: text;
+            color: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .internet__item--glow:hover {
+            background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+            background-clip: text;
+            color: #ffffff30;
+        }
+
+
+        .input {
+            display: flex;
+            width: max-content;
+            border-radius: 4px;
+            justify-content: center;
+            align-items: center;
+            background: #171717;
+            margin-bottom: 14px;
+        }
+
+        .input__left {
+            font-size: 14px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .input__right {
+            background: #00000054;
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .input__right:hover {
+            background: #1b1b1b;
+        }
+
+        .input__right:focus {
+            outline: none;
+            box-shadow: 0px 0px 0px 1px #044acf;
+        }
+
+
+        .submit {
+            background: black;
+            border: 1px solid #292929;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            border-color: white;
+        }
+
+        .submit:active,
+        .submit:focus {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+
+        .hero_img {
+            border-radius: 100%;
+            max-width: 100px;
+            margin-bottom: 16px;
+            box-shadow: 0px 0px 0px 4px #9d211b;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section class="hero">
+            <img src="https://avatars.githubusercontent.com/u/76736580?v=1" alt="" class="hero_img">
+            <h1 class="hero__heading">Posandu Mapa</h1>
+            <p class="hero__desc">14 year old student and a full stack developer</p>
+        </section>
+
+        <h2 class="heading">About</h2>
+        <p class="desc">
+            Born in Sri Lanka, I am a 14-year-old student and a full-stack developer. Started coding when I was 11 years
+            old. Loves dark mode, and learning new technologies. Currently blogging on <a
+                href="https://www.tronic247.com">Tronic247</a>.
+        </p>
+
+        <h2 class="heading">Skills</h2>
+        <div class="skill">
+            <div class="skill__name">Backend</div>
+            <div class="skill__desc">PHP, JavaScript, NodeJS, Rust (still learning Rust)</div>
+        </div>
+
+        <div class="skill">
+            <div class="skill__name">Frontend</div>
+            <div class="skill__desc">JavaScript, React, HTML, CSS, Svelte, NextJS, TailwindCSS</div>
+        </div>
+
+        <div class="skill">
+            <div class="skill__name">Database</div>
+            <div class="skill__desc">MySQL, PostgreSQL, Firebase</div>
+        </div>
+
+        <h2 class="heading">Projects</h2>
+        <p class="desc">
+            <a href="https://tronic247.com">Tronic247</a> - A blog where I write about programming and technology.
+
+            <br>
+
+            <a href="https://material.tronic247.com">Material</a> - A material design UI library for vanilla JavaScript.
+
+            <br>
+
+            <a href="https://devenv.tronic247.com">Devenv</a> - The note taking app for developers.
+
+            <br>
+
+            <a href="https://stackflex.tronic247.com">StackFlex</a> - Copy pasting alternative for developers.
+        </p>
+
+        <h2 class="heading">Me on the internet</h2>
+        <div class="social">
+            <a href="https://github.com/posandu" class="icon">
+                <img src="github.png" alt="">
+            </a>
+
+            <a href="https://twitter.com/posandu" class="icon">
+                <img src="twitter.png" alt="">
+            </a>
+
+            <a href="https://linkedin.com/in/posandu" class="icon">
+                <img src="linkedin.png" alt="">
+            </a>
+
+            <a href="https://dev.to/posandu" class="icon">
+                <img src="dev-to.png" alt="">
+            </a>
+
+            <a href="https://stackoverflow.com/users/16474083/posandu" class="icon">
+                <img src="stack-overflow.png" alt="">
+            </a>
+
+            <a href="https://codepen.io/posandu" class="icon">
+                <img src="codepen.png" alt="">
+            </a>
+
+            <a href="https://www.youtube.com/tronic247" class="icon">
+                <img src="youtube.png" alt="">
+            </a>
+        </div>
+
+        <div class="internet">
+            <a href="mailto:posandumapa@gmail.com" class="internet__item">posandumapa@gmail.com</a>
+            <a href="mailto:posandu@proton.me" class="internet__item">posandu@proton.me</a>
+            <a href="https://discord.com/users/961161387101536296" class="internet__item">Discord: Posandu#4040</a>
+
+            <a class="internet__item internet__item--glow">Solana: <span class="code">posandu.sol</span></a>
+            <a class="internet__item internet__item--glow">Ethereum: <span class="code">posandu.eth</span></a>
+        </div>
+
+        <h2 class="heading">Contact</h2>
+
+        <div class="input">
+            <span class="input__left">
+                Name
+            </span>
+            <input type="text" class="input__right" placeholder="Enter your name" id="name">
+        </div>
+
+        <div class="input">
+            <span class="input__left">
+                Message
+            </span>
+            <textarea class="input__right" placeholder="Enter your message" id="msg"></textarea>
+        </div>
+
+        <button class="submit" id="submit">
+            Submit
+        </button>
+    </div>
+
+
+    <script>
+        document.querySelector('#submit').addEventListener('click', () => {
+            const name = document.querySelector('#name').value;
+            const msg = document.querySelector('#msg').value;
+
+            window.open(`mailto:posandumapa@gmail.com?subject=${name}&body=${msg}`);
+        })
+
+        let i = 0;
+
+        function changeColor() {
+            i += 0.2
+
+            document.querySelector(".hero_img").style.boxShadow = `0px 0px 0px 4px rgb(${i}, ${i + Math.floor(Math.random() * 255)}, ${i + Math.floor(Math.random() * 255)})`;
+
+            if (i > 255) {
+                i = 0;
+            }
+
+            setTimeout(() => {
+                requestAnimationFrame(changeColor);
+            }, 400);
+        }
+
+        requestAnimationFrame(changeColor);
+    </script>
+</body>
+
+</html>
