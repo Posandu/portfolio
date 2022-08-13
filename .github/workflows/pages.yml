@@ -33,7 +33,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v1
       - name: Install & Build
-        uses: npm i && npm run build
+        run: npm i && npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
