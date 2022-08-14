@@ -208,3 +208,11 @@ a:hover {
 	box-shadow: 0px 0px 0px 4px #9d211b;
 	transition: all 0.2s ease;
 }
+
+.code {
+	font-family: monospace;
+}
+
+.social {
+	margin-bottom: 16px;
+}

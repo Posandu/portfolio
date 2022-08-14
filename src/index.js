@@ -11,7 +11,7 @@ function changeColor() {
 	i += 0.2;
 
 	document.querySelector(
-		".hero_img"
+		"#hero_img"
 	).style.boxShadow = `0px 0px 0px 4px rgb(${i}, ${
 		i + Math.floor(Math.random() * 255)
 	}, ${i + Math.floor(Math.random() * 255)})`;
