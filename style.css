@@ -1,0 +1,294 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: inherit;
+}
+
+body {
+	font-family: "Roboto", sans-serif;
+	background: black;
+	color: white;
+	line-height: 24px;
+}
+
+/*
+Set scroll bar color to black
+*/
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: black;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+body {
+	scrollbar-color: #888 black;
+}
+
+.container {
+	max-width: 1000px;
+	margin: auto;
+	padding: 50px 40px;
+}
+
+.hero {
+	outline: 1px solid #1c1c1c;
+	border-radius: 4px;
+	outline-offset: 19px;
+	margin-bottom: 40px;
+	display: flex;
+}
+
+.hero__heading {
+	font-size: 28px;
+	margin-bottom: 8px;
+}
+
+.hero__desc {
+	color: #8e8e8e;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.heading {
+	font-size: 20px;
+	margin-bottom: 10px;
+	font-weight: 400;
+	margin-top: 25px;
+}
+
+.desc {
+	color: #949494;
+	font-size: 14px;
+	max-width: 800px;
+	font-weight: 400;
+}
+
+a {
+	text-decoration: underline;
+	color: #dfdfdf;
+}
+
+a:hover {
+	background: #282828;
+}
+
+.skill {
+	display: flex;
+	margin: 16px 0px;
+	background: #0c0c0c;
+	border-radius: 4px;
+	padding: 12px;
+	font-size: 14px;
+}
+
+.skill__name {
+	color: #a2a2a2;
+	margin-right: 14px;
+}
+
+.skill__desc {
+	color: white;
+}
+
+.skill:hover {
+	background: #111;
+}
+
+.icon {
+	text-decoration: none;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	margin-right: 11px;
+	background: #171717;
+	padding: 6px;
+	transition: all 0.2s ease;
+}
+
+.icon:active {
+	box-shadow: 0 0 0 4px #2e2e2e;
+}
+
+.internet {
+	display: flex;
+	margin-top: 10px;
+	flex-direction: column;
+}
+
+.internet__item {
+	text-decoration: none;
+	margin-bottom: 7px;
+	font-size: 14px;
+	color: white;
+	width: max-content;
+	border-radius: 4px;
+}
+
+.internet__item:hover {
+	background: none;
+	color: #a2a2a2;
+}
+
+.internet__item--glow {
+	background: rgb(131, 58, 180);
+	background: linear-gradient(
+		90deg,
+		rgba(131, 58, 180, 1) 0%,
+		rgba(253, 29, 29, 1) 50%,
+		rgba(252, 176, 69, 1) 100%
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	transition: all 0.2s ease;
+}
+
+.internet__item--glow:hover {
+	background: linear-gradient(
+		90deg,
+		rgba(131, 58, 180, 1) 0%,
+		rgba(253, 29, 29, 1) 50%,
+		rgba(252, 176, 69, 1) 100%
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: #ffffff30;
+}
+
+.input {
+	display: flex;
+	width: max-content;
+	border-radius: 4px;
+	justify-content: center;
+	align-items: center;
+	background: #171717;
+	margin-bottom: 14px;
+}
+
+.input__left {
+	font-size: 14px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.input__right {
+	background: #00000054;
+	border: none;
+	color: white;
+	padding: 10px 16px;
+	font-size: 15px;
+	transition: all 0.2s ease;
+}
+
+.input__right:hover {
+	background: #1b1b1b;
+}
+
+.input__right:focus {
+	outline: none;
+	box-shadow: 0px 0px 0px 1px #044acf;
+}
+
+.submit {
+	background: black;
+	border: 1px solid #292929;
+	color: white;
+	padding: 10px 20px;
+	font-size: 14px;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.submit:hover {
+	border-color: white;
+}
+
+.submit:active,
+.submit:focus {
+	background: white;
+	color: black;
+	border-color: white;
+}
+
+.hero_img {
+	border-radius: 100%;
+	max-width: 100px;
+	margin-bottom: 16px;
+	box-shadow: 0px 0px 0px 4px #9d211b;
+	transition: all 0.2s ease;
+}
+
+.code {
+	font-family: monospace;
+}
+
+.social {
+	margin-bottom: 16px;
+}
+
+.hero__left {
+	flex: 1;
+}
+.hero__right {
+	flex: 1;
+	display: flex;
+}
+.spotify {
+	border: 1px solid #181818;
+	padding: 10px;
+	border-radius: 4px;
+	margin-left: auto;
+	min-width: 298px;
+	height: max-content;
+	user-select: none;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+.spotify.open {
+	opacity: 1;
+}
+.spotify__img {
+	width: 50px;
+	border-radius: 10px;
+	margin-right: 10px;
+}
+.spotify__icon {
+	width: 27px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.spotify__info {
+	position: relative;
+	display: flex;
+	margin-top: 5px;
+	margin-bottom: 8px;
+}
+.spotify__title {
+	font-size: 11px;
+}
+.spotify__song {
+	font-size: 16px;
+}
+.spotify__artist {
+	color: #868e9a;
+	font-size: 12px;
+}
+.spotify:hover {
+	background: #090909;
+}

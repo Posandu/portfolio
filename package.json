@@ -1,20 +1,14 @@
 {
-	"name": "lab",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "node build.js"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"type": "module",
-	"dependencies": {
-		"@posandu/roughclass": "^1.0.1",
-		"clean-css": "^5.3.1",
-		"esbuild": "^0.15.3",
-		"html-minifier": "^4.0.0"
-	}
+  "name": "lab",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^3.2.3"
+  }
 }
