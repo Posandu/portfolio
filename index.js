@@ -12,7 +12,7 @@ function changeColor() {
 
 	document.querySelector(
 		"#hero_img"
-	).style.boxShadow = `0px 0px 0px 4px rgb(${i}, ${
+	).style.boxShadow = `0px 0px 8px -2px rgb(${i}, ${
 		i + Math.floor(Math.random() * 255)
 	}, ${i + Math.floor(Math.random() * 255)})`;
 
@@ -38,7 +38,7 @@ const updateSpotify = async () => {
 	const data = await res.json();
 
 	document.querySelector(".spotify").classList.remove("open");
-	
+
 	if (data.data) {
 		const { spotify } = data.data;
 

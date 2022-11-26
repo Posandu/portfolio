@@ -12,6 +12,7 @@ body {
 	background: black;
 	color: white;
 	line-height: 24px;
+	overflow-x: hidden;
 }
 
 /*
@@ -92,6 +93,7 @@ a:hover {
 	border-radius: 4px;
 	padding: 12px;
 	font-size: 14px;
+	transition: all 0.2s ease-in-out;
 }
 
 .skill__name {
@@ -291,4 +293,16 @@ a:hover {
 }
 .spotify:hover {
 	background: #090909;
+}
+
+.bg {
+	transition: all 0.2s ease;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	z-index: -10;
+	opacity: 0.056;
+	filter: blur(60px);
+	pointer-events: none;
 }
