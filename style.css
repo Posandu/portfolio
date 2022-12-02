@@ -147,12 +147,10 @@ a:hover {
 
 .internet__item--glow {
 	background: rgb(131, 58, 180);
-	background: linear-gradient(
-		90deg,
-		rgba(131, 58, 180, 1) 0%,
-		rgba(253, 29, 29, 1) 50%,
-		rgba(252, 176, 69, 1) 100%
-	);
+	background: linear-gradient(90deg,
+			rgba(131, 58, 180, 1) 0%,
+			rgba(253, 29, 29, 1) 50%,
+			rgba(252, 176, 69, 1) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
@@ -160,12 +158,10 @@ a:hover {
 }
 
 .internet__item--glow:hover {
-	background: linear-gradient(
-		90deg,
-		rgba(131, 58, 180, 1) 0%,
-		rgba(253, 29, 29, 1) 50%,
-		rgba(252, 176, 69, 1) 100%
-	);
+	background: linear-gradient(90deg,
+			rgba(131, 58, 180, 1) 0%,
+			rgba(253, 29, 29, 1) 50%,
+			rgba(252, 176, 69, 1) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: #ffffff30;
@@ -246,10 +242,12 @@ a:hover {
 .hero__left {
 	flex: 1;
 }
+
 .hero__right {
 	flex: 1;
 	display: flex;
 }
+
 .spotify {
 	border: 1px solid #181818;
 	padding: 10px;
@@ -261,36 +259,44 @@ a:hover {
 	opacity: 0;
 	transition: all 0.2s ease;
 }
+
 .spotify.open {
 	opacity: 1;
 }
+
 .spotify__img {
 	width: 50px;
 	border-radius: 10px;
 	margin-right: 10px;
 }
+
 .spotify__icon {
 	width: 27px;
 	position: absolute;
 	top: 0;
 	right: 0;
 }
+
 .spotify__info {
 	position: relative;
 	display: flex;
 	margin-top: 5px;
 	margin-bottom: 8px;
 }
+
 .spotify__title {
 	font-size: 11px;
 }
+
 .spotify__song {
 	font-size: 16px;
 }
+
 .spotify__artist {
 	color: #868e9a;
 	font-size: 12px;
 }
+
 .spotify:hover {
 	background: #090909;
 }
@@ -305,4 +311,37 @@ a:hover {
 	opacity: 0.056;
 	filter: blur(60px);
 	pointer-events: none;
+}
+
+/**
+** Snowfall 
+**/
+:root {
+	--snowflake-color: #fff;
+	--snowflake-size: 10px;
+	--snowflake-speed: 2s;
+	--snowflake-start: 0s;
+	--snowflake-x: var(--snowflake-size);
+}
+
+@keyframes snow {
+	to {
+		transform: translateY(calc(100vh + var(--snowflake-size)));
+	}
+}
+
+
+.snowflake {
+	animation-delay: var(--snowflake-delay);
+	animation-duration: var(--snowflake-speed);
+	animation-iteration-count: infinite;
+	animation-name: snow;
+	animation-timing-function: linear;
+	background-color: var(--snowflake-color);
+	border-radius: 50%;
+	height: var(--snowflake-size);
+	left: var(--snowflake-x);
+	position: fixed;
+	top: calc(var(--snowflake-size) * -1);
+	width: var(--snowflake-size);
 }
