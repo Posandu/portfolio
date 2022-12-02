@@ -8,7 +8,7 @@ const setProperties = (properties) => (element) => {
 	return element;
 };
 
-[...Array(100)].forEach(() =>
+[...Array(35)].forEach(() =>
 	document.body.appendChild(
 		setProperties({
 			"--snowflake-x": `${random(1)(99)}vw`,
