@@ -61,3 +61,8 @@ const updateSpotify = async () => {
 };
 
 updateSpotify();
+
+
+// Snow - https://www.tronic247.com/how-to-create-a-snowfall-with-javascript/
+let  t=()=>{const  t=(t,e)=>Math.random()*(e-t)+t;let  e=window.innerWidth,n=window.innerHeight,s=document.createElement("div");s.style.position="fixed",s.style.top="-2px",s.style.right=t(0,e)+"px",s.style.width="10px",s.style.height="10px",s.style.backgroundColor="#fff",s.style.borderRadius="50%",s.style.zIndex="999",s.style.style.pointerEvents='none';const  i=()=>{s.style.top=parseInt(s.style.top)+2+"px",s.style.right=parseInt(s.style.right)+t(0,2)+"px",parseInt(s.style.top)>n&&(s.style.right=t(0,e)+"px",s.style.top=parseInt("-"+t(0,20)+"px")),window.requestAnimationFrame(i)};window.requestAnimationFrame(i),document.body.appendChild(s)};for(let  e=0;e<60;e++)setTimeout(t,100*e);
+
