@@ -74,22 +74,6 @@
 			link: "https://pb.posandu.com/",
 		},
 		{
-			name: "Svelte File Explorer",
-			description: "A file explorer written in Svelte.",
-			link: "https://files.posandu.com/",
-		},
-		{
-			name: "Uno",
-			description: "Simple UNO game inspired by pizz.uno.",
-			link: "https://uno-red.vercel.app/",
-		},
-		{
-			name: "Music Player UI",
-			description:
-				"Simple music player UI made with Svelte to improve my design skills.",
-			link: "https://mplayer-gamma.vercel.app/",
-		},
-		{
 			name: "Home clock",
 			description: "Firmware for ESP8266 to display time and more features.",
 			link: "https://github.com/Posandu/home-clock",
@@ -98,51 +82,6 @@
 			name: "Discord Bot",
 			description: "Personal Discord bot for my server.",
 			link: "https://github.com/Posandu/discord-bot",
-		},
-		{
-			name: "Powpow",
-			description: "Interepreter made with Rust.",
-			link: "https://github.com/Posandu/powpow",
-		},
-		{
-			name: "Blaze",
-			description: "POC Svelte like compiler",
-			link: "https://github.com/Posandu/blaze",
-		},
-		{
-			name: "Utiling",
-			description: "A JS utility library",
-			link: "https://github.com/Posandu/utiling",
-		},
-		{
-			name: "EasyState",
-			description: "State management library for React",
-			link: "https://github.com/Posandu/easystate",
-		},
-		{
-			name: "UseLocal",
-			description: "Function fallback value",
-			link: "https://github.com/Posandu/useLocal",
-		},
-		{
-			name: "Tcol",
-			description: "Minimal terminal color library",
-			link: "https://github.com/Posandu/tcol",
-		},
-		{
-			name: "PHPBuild",
-			description: "PHP build system, similar to Webpack",
-			link: "https://github.com/Posandu/phpbuild",
-		},
-		{
-			name: "State.js",
-			description: "State management library for JS",
-			link: "https://github.com/Posandu/state.js",
-		},
-		{
-			name: "Daisy UI Material",
-			description: "Material UI for Daisy UI",
-			link: "https://github.com/Posandu/material-daisyui",
 		},
 	];
 </script>
