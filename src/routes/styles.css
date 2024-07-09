@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+	scrollbar-gutter: stable;
+	--font: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol";
+	background-color: unset;
+	overflow-x: hidden;
+}
+
+:root,
+html,
+body {
+	scroll-behavior: smooth;
+}
+
+html {
+	overflow-y: scroll;
+	scrollbar-gutter: stable;
+}
