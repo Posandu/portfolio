@@ -94,7 +94,7 @@
 		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-5 py-4 rounded-xl text-lg relative z-10"
 	>
 		<p>
-			I am a {new Date().getFullYear() - 2008} year old student by day and a developer
+			I am a student by day and a developer
 			by night. My primary interest lies in
 			<span class="font-semibold text-blue-400">fullstack development</span>, although
 			I also engage in
