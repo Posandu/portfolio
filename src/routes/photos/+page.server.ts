@@ -1,17 +1,15 @@
 export const load = async () => {
-    const images = import.meta.glob('../../../static/images/original/*', {
-        query: {
-            enhanced: true
-        }
-    });
+	const images = import.meta.glob('../../lib/photography/*', {
+		query: {
+			as: 'run'
+		},
+		import: 'default',
+		eager: true
+	});
 
-    return {
-        images: Object.keys(images).map((path) => {
-            return {
-                name: path.split('/').pop()
-            }
-        })
-    }
-}
+	return {
+		images
+	};
+};
 
 export const prerender = true;

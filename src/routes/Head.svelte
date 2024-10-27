@@ -1,18 +1,17 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import Icon from "@iconify/svelte";
-	import { ripple } from "svelte-ripple-action";
-	import { crossfade } from "svelte/transition";
-	import { onMount } from "svelte";
-
-	const [send, receive] = crossfade({
-		duration: 300,
-	});
+	import { page } from '$app/stores';
+	import { ripple } from 'svelte-ripple-action';
+	import { fade, fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
+	import clsx from 'clsx';
+	import MaterialSymbolsMenu from '~icons/material-symbols/menu';
+	import MaterialSymbolsClose from '~icons/material-symbols/close';
+	import { cubicInOut } from 'svelte/easing';
 
 	const topAppBarHeight = 76;
 
 	let lastScrollPosition = 0;
-	let currentAppBarOffsetTop = 0;
+	let currentAppBarOffsetTop = $state(0);
 
 	const update = () => {
 		const currentScrollPosition = Math.max(window.scrollY, 0);
@@ -28,128 +27,104 @@
 		}
 	};
 
-	let menuOpen = false;
+	let menuOpen = $state(false);
 
 	const menuItems = [
 		{
-			name: "About",
-			link: "/",
+			name: 'About',
+			link: '/'
 		},
 		{
-			name: "Hire Me",
-			link: "/hire",
+			name: 'Hire Me',
+			link: '/hire'
 		},
 		{
-			name: "Guestbook",
-			link: "/guestbook",
+			name: 'Guestbook',
+			link: '/guestbook'
 		},
 		{
-			name: "Photography",
-			link: "/photos",
+			name: 'Photography',
+			link: '/photos'
 		},
 		{
-			name: "Blog",
-			link: "https://www.tronic247.com",
-		},
+			name: 'Blog',
+			link: 'https://www.tronic247.com'
+		}
 	];
+
+	let activePagePath = $derived($page.url.pathname);
 
 	onMount(update);
 </script>
 
-<svelte:head>
-	<title>Posandu Mapa - Student by day, developer by night.</title>
-</svelte:head>
-
-<svelte:window on:scroll={update} />
+<svelte:window onscroll={update} />
 
 <div
-	class="fixed flex items-center justify-center z-50 w-full top-2 left-0"
+	class="fixed flex items-center justify-center z-50 w-full top-4 left-0"
 	style="transform: translateY({currentAppBarOffsetTop}px); "
 >
-	<header
-		class="md:shadow-lg text-center mt-4 p-2 md:bg-[#192831] md:rounded-full"
-	>
-		<div
-			class="md:flex hidden sm:pl-0 pl-20 items-center justify-center overflow-hidden relative"
-		>
-			{#each menuItems as item}
-				<div class="relative h-max flex items-center justify-center">
-					<a
-						href={item.link}
-						class="
-			text-sm px-4 py-2 inline-flex items-center justify-center relative z-10 hover:bg-base-content/20 min-w-min transition-all rounded-full font-semibold
-			{$page.url.pathname === item.link ? ' text-white ' : ''} rounded"
-						target={item.link.startsWith("http") ? "_blank" : ""}
-					>
-						{item.name}
-
-						{#if item.name == "Blog"}
-							<Icon icon="ic:baseline-open-in-new" class="ml-2" />
-						{/if}
-					</a>
-
-					{#if $page.url.pathname === item.link}
-						<div
-							class="absolute w-full h-full top-0 left-0 bg-white/10 rounded-full"
-							in:receive={{ key: "menu" }}
-							out:send={{ key: "menu" }}
-						></div>
-					{/if}
-				</div>
-			{/each}
-		</div>
-
-		{#if !menuOpen}
-			<button
-				class="text-3xl md:hidden mx-auto rounded-full bg-base-300 w-16 h-16 flex items-center justify-center"
-				in:receive={{ key: "menu" }}
-				out:send={{ key: "menu" }}
-				on:click={() => {
-					menuOpen = true;
-				}}
+	<div class="bg-white/5 md:flex hidden backdrop-blur-md rounded-full p-2 shadow-floating-xl">
+		{#each menuItems as item}
+			<a
+				class={clsx(
+					'px-4 transition-all py-2 transition- rounded-full',
+					activePagePath === item.link ? 'bg-white/5' : 'hover:bg-white/5'
+				)}
+				href={item.link}
 				use:ripple
+				target={item.link.startsWith('http') ? '_blank' : undefined}
 			>
-				<Icon
-					icon="ic:baseline-menu"
-					class="md:hidden text-white cursor-pointer"
-				/>
-			</button>
-		{:else}
-			<div
-				class="rounded-2xl shadow-lg fixed left-1/2 -translate-x-1/2 h-max max-w-xl inset-6 max-h-[calc(100vh-24px)] overflow-auto backdrop-blur-xl bg-base-300/60"
-				in:receive={{ key: "menu" }}
-				out:send={{ key: "menu" }}
-			>
-				<a
-					href="#!"
-					class="
-				text-md mb-4 px-4 py-2 block
-				 text-white rounded ripple-effect"
-					use:ripple
-					on:click={() => {
-						menuOpen = false;
-					}}
-				>
-					Close Menu
-				</a>
+				{item.name}
+			</a>
+		{/each}
+	</div>
 
-				{#each menuItems as item}
+	<button
+		class="md:hidden p-4 rounded-full bg-white/5 backdrop-blur-md shadow-floating-xl"
+		onclick={() => (menuOpen = !menuOpen)}
+		use:ripple
+	>
+		<MaterialSymbolsMenu class="w-6 h-6" />
+	</button>
+</div>
+
+{#if menuOpen}
+	<div
+		class="fixed inset-0 bg-black/70 z-40"
+		onclick={() => (menuOpen = false)}
+		aria-hidden="true"
+		transition:fade={{ duration: 200 }}
+	></div>
+{/if}
+
+{#if menuOpen}
+	<div
+		class="fixed top-0 right-0 w-64 h-full bg-[#2b2b2b] backdrop-blur-sm z-50 shadow-lg p-4 overflow-y-auto"
+		transition:fly={{ duration: 200, x: 10, easing: cubicInOut }}
+	>
+		<button
+			class="absolute top-4 right-4 p-2 rounded-full bg-white/5"
+			onclick={() => (menuOpen = false)}
+		>
+			<MaterialSymbolsClose class="w-6 h-6 text-white" />
+		</button>
+
+		<ul class="mt-8 space-y-4">
+			{#each menuItems as item}
+				<li>
 					<a
+						class={clsx(
+							'block px-4 py-2 rounded-md transition-all text-white',
+							activePagePath === item.link ? 'bg-white/5' : 'hover:bg-white/5'
+						)}
 						href={item.link}
-						class="
-				text-md px-4 py-2 block text-left
-				{$page.url.pathname === item.link
-							? ' text-white bg-white/10 '
-							: 'hover:bg-white/5'} ripple-effect"
-						use:ripple
-						on:click={() => {
-							menuOpen = false;
-						}}
+						onclick={() => (menuOpen = false)}
+						target={item.link.startsWith('http') ? '_blank' : undefined}
 					>
 						{item.name}
 					</a>
-				{/each}
-			</div>
-		{/if}
-	</header>
-</div>
+				</li>
+			{/each}
+		</ul>
+	</div>
+{/if}

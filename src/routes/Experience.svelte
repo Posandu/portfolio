@@ -1,46 +1,79 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
+	import Icon from '@iconify/svelte';
 
-	const details = [
+	interface Experience {
+		title: string;
+		company: string;
+		type: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
+		startDate: string; // YYYY-MM
+		endDate: string | null; // YYYY-MM or null for present
+		location: string;
+		description?: string;
+		skills: string[];
+	}
+
+	const experiences: Experience[] = [
 		{
-			year: "2023 - NOV",
-			icon: "fluent-mdl2:financial-solid",
-			details: "Started freelancing and working in web3",
+			title: 'Full Stack Developer',
+			company: 'Freelance',
+			type: 'Freelance',
+			startDate: '2023-08',
+			endDate: null,
+			location: 'Remote',
+			skills: ['Node.js', 'Responsiveness']
 		},
 		{
-			year: "2023 - JUL",
-			icon: "ic:round-work-off",
-			details: "Left Realm Labs AI",
+			title: 'Technical Writer',
+			company: 'Tronic247',
+			type: 'Full-time',
+			startDate: '2020-04',
+			endDate: null,
+			location: 'Sri Lanka',
+			description: 'Tronic247 is a blog where I write articles',
+			skills: ['Node.js', 'Responsiveness']
 		},
 		{
-			year: "2023 - APR",
-			icon: "ic:round-work",
-			details: "Got promoted to a fullstack developer",
+			title: 'Full Stack Developer',
+			company: 'Contract',
+			type: 'Contract',
+			startDate: '2023-09',
+			endDate: '2024-02',
+			location: 'United States · Remote',
+			skills: ['Node.js', 'Responsiveness']
 		},
 		{
-			year: "2023 - FEB",
-			icon: "ic:round-work",
-			details: "Employed as a frontend developer in Realm Labs",
-		},
-		{
-			year: "2022 - SEP",
-			icon: "bxs:party",
-			details:
-				"Won a hackathon hosted by <a href='https://hashnode.com' target='_blank' class='text-blue-500'>Hashnode</a>",
-		},
+			title: 'Full Stack Developer',
+			company: 'Realm Labs AI',
+			type: 'Part-time',
+			startDate: '2023-02',
+			endDate: '2023-07',
+			location: 'New York, United States · Remote',
+			description:
+				'Worked with Sveltekit and I learned about some AI things like stable diffusion.',
+			skills: ['Node.js', 'Responsiveness']
+		}
 	];
 </script>
 
-{#each details as detail}
+{#each experiences as experience}
 	<div
-		class="flex items-center border rounded-xl p-4 border-base-300/60 bg-base-200 backdrop-blur-md mb-4"
+		class="flex flex-col md:flex-row items-start md:items-center border rounded-xl p-6 border-base-300/60 bg-base-200 backdrop-blur-md mb-6 shadow-lg"
 	>
-		<Icon icon={detail.icon} class="text-2xl mr-1" />
-
-		<div class="ml-4 text-sm">
-			<span class="block mb-2 font-semibold"> {detail.year} </span>
-
-			<p class="text-base-content/80">{@html detail.details}</p>
+		<div class="flex-1">
+			<h3 class="text-lg font-bold mb-1">
+				{experience.title} at {experience.company}
+			</h3>
+			<p class="text-sm text-base-content/70 mb-2">
+				{experience.startDate} - {experience.endDate ? experience.endDate : 'Present'}
+			</p>
+			<p class="text-sm text-base-content/70 mb-2">{experience.location}</p>
+			{#if experience.description}
+				<p class="text-sm text-base-content/80 mb-2">{experience.description}</p>
+			{/if}
+			<p class="text-sm text-base-content/80">
+				<strong>Skills:</strong>
+				{experience.skills.join(', ')}
+			</p>
 		</div>
 	</div>
 {/each}

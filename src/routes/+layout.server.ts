@@ -1,5 +1,5 @@
 export let load = ({ url }) => {
-	return { url: url.href };
+	return { url: url.pathname };
 };
 
 export const prerender = true;

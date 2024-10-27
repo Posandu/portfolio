@@ -1,23 +1,20 @@
 <script lang="ts">
-	import { initializeApp } from "firebase/app";
-	import { onMount } from "svelte";
-	import { getDatabase, ref, onValue, set } from "firebase/database";
-	import {
-		GoogleAuthProvider,
-		signInWithPopup,
-		getAuth,
-		onAuthStateChanged,
-	} from "firebase/auth";
-	import { slide } from "svelte/transition";
-	import { ripple } from "svelte-ripple-action";
+	import { run, preventDefault } from 'svelte/legacy';
+	import SvelteSeo from 'svelte-seo';
+	import { initializeApp } from 'firebase/app';
+	import { onMount } from 'svelte';
+	import { getDatabase, ref, onValue, set } from 'firebase/database';
+	import { GoogleAuthProvider, signInWithPopup, getAuth, onAuthStateChanged } from 'firebase/auth';
+	import { slide } from 'svelte/transition';
+	import { ripple } from 'svelte-ripple-action';
 
 	const firebaseConfig = {
-		apiKey: "AIzaSyB6H1a1HfQCkDeOC1kcEo4pKwKIjWNpGno",
-		authDomain: "portfolio-2ae6c.firebaseapp.com",
-		projectId: "portfolio-2ae6c",
-		storageBucket: "portfolio-2ae6c.appspot.com",
-		messagingSenderId: "585390300572",
-		appId: "1:585390300572:web:24d367d3a6937a4c003c59",
+		apiKey: 'AIzaSyB6H1a1HfQCkDeOC1kcEo4pKwKIjWNpGno',
+		authDomain: 'portfolio-2ae6c.firebaseapp.com',
+		projectId: 'portfolio-2ae6c',
+		storageBucket: 'portfolio-2ae6c.appspot.com',
+		messagingSenderId: '585390300572',
+		appId: '1:585390300572:web:24d367d3a6937a4c003c59'
 	};
 
 	initializeApp(firebaseConfig);
@@ -27,19 +24,19 @@
 		message: string;
 		img: string;
 		opened?: boolean;
-	}[] = [];
+	}[] = $state([]);
 
 	const database = getDatabase();
-	const dbRef = ref(database, "guestbook");
+	const dbRef = ref(database, 'guestbook');
 
 	onValue(dbRef, (snapshot) => {
 		const data = snapshot.val();
 
 		signs = Object.keys(data).map((key) => {
 			return {
-				name: data[key].name || "Anonymous",
-				message: data[key].message || "No message",
-				img: data[key].img || "https://i.imgur.com/lVlPvCB.gif",
+				name: data[key].name || 'Anonymous',
+				message: data[key].message || 'No message',
+				img: data[key].img || 'https://i.imgur.com/lVlPvCB.gif'
 			};
 		});
 	});
@@ -48,33 +45,33 @@
 		const auth = getAuth();
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				name = user.displayName || "Anonymous";
-				img = user.photoURL || "https://i.imgur.com/lVlPvCB.gif";
+				name = user.displayName || 'Anonymous';
+				img = user.photoURL || 'https://i.imgur.com/lVlPvCB.gif';
 				signedIn = true;
 			}
 		});
 	});
 
-	let name = "";
-	let message = "";
-	let img = "";
-	let signedIn = false;
-	let sent = false;
+	let name = $state('');
+	let message = $state('');
+	let img = $state('');
+	let signedIn = $state(false);
+	let sent = $state(false);
 
 	onMount(() => {
-		if (localStorage.getItem("sent") == "true") {
+		if (localStorage.getItem('sent') == 'true') {
 			sent = true;
 		}
 	});
 
-	$: if (sent) {
-		localStorage.setItem("sent", "true");
-	}
+	run(() => {
+		if (sent) {
+			localStorage.setItem('sent', 'true');
+		}
+	});
 </script>
 
-<svelte:head>
-	<title>Posandu Mapa - Guestbook</title>
-</svelte:head>
+<SvelteSeo title="Posandu Mapa - Guestbook" />
 
 <p>Leave a message for me!</p>
 
@@ -82,7 +79,7 @@
 	<button
 		class="btn btn-primary rounded-lg"
 		use:ripple
-		on:click={() => {
+		onclick={() => {
 			const provider = new GoogleAuthProvider();
 			const auth = getAuth();
 			signInWithPopup(auth, provider);
@@ -97,23 +94,23 @@
 		</p>
 
 		<form
-			on:submit|preventDefault={() => {
-				const dbRef = ref(database, "guestbook");
+			onsubmit={preventDefault(() => {
+				const dbRef = ref(database, 'guestbook');
 
 				set(dbRef, {
 					...signs,
 					[Date.now()]: {
 						name,
 						message,
-						img,
-					},
+						img
+					}
 				});
 
 				sent = true;
-			}}
+			})}
 		>
 			<div class="form-control">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<!-- svelte-ignore a11y_label_has_associated_control -->
 				<label class="label">
 					<span class="label-text">Message</span>
 				</label>
@@ -121,7 +118,7 @@
 					class="textarea h-24 textarea-bordered"
 					placeholder="Leave a message"
 					bind:value={message}
-				/>
+				></textarea>
 			</div>
 			<div class="form-control mt-2">
 				<button class="btn btn-primary rounded-xl" use:ripple> Send </button>
@@ -132,7 +129,7 @@
 
 {#if !signs.length}
 	<div class="my-8 p-2">
-		<span class="loading loading-spinner loading-lg" />
+		<span class="loading loading-spinner loading-lg"></span>
 	</div>
 {/if}
 

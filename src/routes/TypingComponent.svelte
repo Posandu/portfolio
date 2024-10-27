@@ -1,13 +1,20 @@
 <script lang="ts">
-	import { onDestroy, onMount } from "svelte";
-	import { fade } from "svelte/transition";
+	import { run } from 'svelte/legacy';
 
-	export let text = "";
-	export let speed = 10;
+	import { onDestroy, onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+	import clsx from 'clsx';
+
+	interface Props {
+		text?: string;
+		speed?: number;
+	}
+
+	let { text = '', speed = 10 }: Props = $props();
 
 	let textArray = [...text];
 	let textLength = textArray.length;
-	let textIndex = 0;
+	let textIndex = $state(0);
 	let textInterval: NodeJS.Timeout;
 
 	onMount(() => {
@@ -21,24 +28,15 @@
 	});
 
 	onDestroy(() => {
-		textToShow = "";
 		clearInterval(textInterval);
 	});
-
-	let textToShow = "";
-
-	$: {
-		textToShow = textArray.slice(0, textIndex).join("");
-	}
 </script>
 
-{#if textToShow}
-	{#each [...textToShow] as letter}
-		<span class="in"
-			>{@html letter === " " ? "&nbsp;" : letter}</span
-		>
-	{/each}
-{/if}
+{#each text as letter, i}
+	<span class={textIndex > i ? 'in' : 'opacity-0'}>
+		{@html letter === ' ' ? '&nbsp;' : letter}
+	</span>
+{/each}
 
 <style>
 	.in {

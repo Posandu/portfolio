@@ -1,55 +1,57 @@
 <script lang="ts">
-	import { navigating } from "$app/stores";
-	import Icon from "@iconify/svelte";
-	import { ripple } from "svelte-ripple-action";
+	import { run } from 'svelte/legacy';
+
+	import { navigating } from '$app/stores';
+	import Icon from '@iconify/svelte';
+	import { ripple } from 'svelte-ripple-action';
 
 	const socialArr = [
 		{
-			name: "GitHub",
-			icon: "uiw:github",
-			link: "https://github.com/posandu",
+			name: 'GitHub',
+			icon: 'uiw:github',
+			link: 'https://github.com/posandu'
 		},
 		{
-			name: "Twitter",
-			icon: "akar-icons:twitter-fill",
-			link: "https://twitter.com/posandu",
+			name: 'Twitter',
+			icon: 'akar-icons:twitter-fill',
+			link: 'https://twitter.com/posandu'
 		},
 		{
-			name: "DEV",
-			icon: "material-symbols:logo-dev",
-			link: "https://dev.to/posandu",
+			name: 'DEV',
+			icon: 'material-symbols:logo-dev',
+			link: 'https://dev.to/posandu'
 		},
 		{
-			name: "LinkedIn",
-			icon: "akar-icons:linkedin-fill",
-			link: "https://www.linkedin.com/in/posandu/",
+			name: 'LinkedIn',
+			icon: 'akar-icons:linkedin-fill',
+			link: 'https://www.linkedin.com/in/posandu/'
 		},
 		{
-			name: "Stack Overflow",
-			icon: "ri:stack-overflow-fill",
-			link: "https://stackoverflow.com/users/16474083/posandu",
+			name: 'Stack Overflow',
+			icon: 'ri:stack-overflow-fill',
+			link: 'https://stackoverflow.com/users/16474083/posandu'
 		},
 		{
-			name: "CodePen",
-			icon: "ri:codepen-line",
-			link: "https://codepen.io/posandu",
+			name: 'CodePen',
+			icon: 'ri:codepen-line',
+			link: 'https://codepen.io/posandu'
 		},
 		{
-			name: "Discord",
-			icon: "akar-icons:discord-fill",
-			link: "https://tronic247.com/pastebox.html#O=CISwzgxg9gTgJgLgAQAUpgIYDs4FcDEALAAwlIAUUANnAJQBQSTzLrAAgA7rZ4VYCmAd1pA",
-		},
+			name: 'Discord',
+			icon: 'akar-icons:discord-fill',
+			link: 'https://tronic247.com/pastebox.html#O=CISwzgxg9gTgJgLgAQAUpgIYDs4FcDEALAAwlIAUUANnAJQBQSTzLrAAgA7rZ4VYCmAd1pA'
+		}
 	];
 
-	const icons = ["💖", "🤕", "🤬", "🩸", "🥵"];
+	const icons = ['💖', '🤕', '🤬', '🩸', '🥵'];
 
-	let icon = 0;
+	let icon = $state(0);
 
-	$: {
+	run(() => {
 		if ($navigating) {
 			icon = ~~(Math.random() * icons.length);
 		}
-	}
+	});
 </script>
 
 <div class="mt-10 font-medium flex md:flex-row flex-col items-center justify-center">
