@@ -23,15 +23,13 @@
 	});
 </script>
 
-<SvelteSeo
-	title="Posandu Mapa - About me"
-/>
+<SvelteSeo title="Posandu Mapa - About me" />
 
 <div class="md:flex mt-2 md:mt-20 relative z-10">
 	<div class="flex-1 flex flex-col justify-center md:items-start items-center">
 		<h2 class="text-3xl opacity-60 font-light">Hi, I'm</h2>
 
-		<h1 class="text-6xl my-4 font-medium text-white md:ml-0 ml-4">
+		<h1 class="text-6xl my-4 font-medium text-white md:ml-0 ml-4 md:max-w-none max-w-[260px] md:text-left text-center">
 			<TypingComponent text="Posandu Mapa" />
 		</h1>
 
@@ -96,7 +94,8 @@
 		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-5 py-4 rounded-xl text-lg relative z-10"
 	>
 		<p>
-			I am a student by day, developer by night who is passionate about everything related to
+			I am a student @ <a target="_blank" href="https://nsbm.ac.lk" class="font-semibold text-blue-400">NSBM</a> by
+			day, developer by night who is passionate about everything related to
 			<span class="font-semibold text-blue-400">computers</span>. I also explore
 			<span class="font-semibold text-green-400">software development</span>,
 			<span class="font-semibold text-indigo-400">machine learning (ML)</span>, and
