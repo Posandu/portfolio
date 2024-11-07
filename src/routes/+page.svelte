@@ -2,12 +2,12 @@
 	import { onDestroy, onMount } from 'svelte';
 	import TypingComponent from './TypingComponent.svelte';
 	import { ripple } from 'svelte-ripple-action';
-	import { getSpotifyData, type UserData } from './spotify';
+	import { getSpotifyData, type NowPlaying } from './spotify';
 	import Work from './Work.svelte';
 	import Skills from './Skills.svelte';
 	import SvelteSeo from 'svelte-seo';
 
-	let spotifyData: UserData['data'] | null = $state(null);
+	let spotifyData: NowPlaying | false = $state(false);
 	let refreshInterval: NodeJS.Timeout;
 
 	onDestroy(() => {
@@ -15,10 +15,10 @@
 	});
 
 	onMount(async () => {
-		spotifyData = (await getSpotifyData()).data;
+		spotifyData = await getSpotifyData();
 
 		refreshInterval = setInterval(async () => {
-			spotifyData = (await getSpotifyData()).data;
+			spotifyData = await getSpotifyData();
 		}, 10000); //10 seconds - less than 1kb of data per request so it's fine ig
 	});
 </script>
@@ -29,7 +29,9 @@
 	<div class="flex-1 flex flex-col justify-center md:items-start items-center">
 		<h2 class="text-3xl opacity-60 font-light">Hi, I'm</h2>
 
-		<h1 class="text-6xl my-4 font-medium text-white md:ml-0 ml-4 md:max-w-none max-w-[260px] md:text-left text-center">
+		<h1
+			class="text-6xl my-4 font-medium text-white md:ml-0 ml-4 md:max-w-none max-w-[260px] md:text-left text-center"
+		>
 			<TypingComponent text="Posandu Mapa" />
 		</h1>
 
@@ -57,17 +59,15 @@
 		>
 			<span class="text-base-content/40 text-2xl mb-4 block font-medium">Spotify</span>
 
-			{#if spotifyData?.listening_to_spotify}
+			{#if spotifyData && spotifyData?.isPlaying === true}
 				<p class="text-lg font-bold">
 					Listening to
-					<a href="https://open.spotify.com/track/{spotifyData?.spotify?.track_id}"
-						>{spotifyData?.spotify?.song}</a
-					>
+					<a href={spotifyData?.songUrl}>{spotifyData?.title}</a>
 					by
-					{spotifyData?.spotify?.artist}
+					{spotifyData?.artist}
 				</p>
 				<img
-					src={spotifyData?.spotify?.album_art_url}
+					src={spotifyData?.albumImageUrl}
 					alt="Album art"
 					class="rounded-lg size-12 inline-block absolute right-4 top-4"
 				/>
@@ -94,8 +94,12 @@
 		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-5 py-4 rounded-xl text-lg relative z-10"
 	>
 		<p>
-			I am a student @ <a target="_blank" href="https://nsbm.ac.lk" class="font-semibold text-blue-400">NSBM</a> by
-			day, developer by night who is passionate about everything related to
+			I am a student @ <a
+				target="_blank"
+				href="https://nsbm.ac.lk"
+				class="font-semibold text-blue-400">NSBM</a
+			>
+			by day, developer by night who is passionate about everything related to
 			<span class="font-semibold text-blue-400">computers</span>. I also explore
 			<span class="font-semibold text-green-400">software development</span>,
 			<span class="font-semibold text-indigo-400">machine learning (ML)</span>, and
