@@ -20,6 +20,12 @@
 			name: 'Zach Hopkins - Digital Kinetics',
 			url: '',
 			text: "As an IT Manager and Business Owner, I've hired many developers over the years, but Posandu truly stands out. I hired Posandu to complete an entire suite of custom management tools for a private company (CRM, Ticket Management, etc). His ability to quickly grasp complex project requirements and deliver effective solutions with minimal oversight is a breath of fresh air in the dev community. He consistently produces quality code that works seamlessly. He is easily my top choice for future development projects."
+		},
+
+		{
+			url: '',
+			name: 'Previous Client',
+			text: 'Working with Posandu was an exceptional experience. His frontend development work consistently exceeded expectations, delivering high-quality code on or before deadlines. What truly set him apart was his proactive problem-solving ability – he anticipated and resolved potential issues before they became roadblocks, minimizing the need for extensive discussions. His technical expertise and efficient communication style make him a valuable asset to any development project.'
 		}
 	];
 </script>
