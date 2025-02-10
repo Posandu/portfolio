@@ -17,6 +17,23 @@
 
 	import '@fontsource-variable/outfit';
 
+	function materialEasing(t: number) {
+		if (t <= 0) return 0;
+		if (t >= 1) return 1;
+
+		if (t <= 0.166666) {
+			const nt = t / 0.166666;
+
+			const mt = 1 - nt;
+			return mt * mt * mt * 0 + 3 * mt * mt * nt * 0 + 3 * mt * nt * nt * 0.06 + nt * nt * nt * 0.4;
+		} else {
+			const nt = (t - 0.166666) / (1 - 0.166666);
+
+			const mt = 1 - nt;
+			return mt * mt * mt * 0.4 + 3 * mt * mt * nt * 0.82 + 3 * mt * nt * nt * 1 + nt * nt * nt * 1;
+		}
+	}
+
 	let { data, children } = $props();
 </script>
 
@@ -57,17 +74,23 @@
 		<div
 			in:scale={{ delay: 200, duration: 200, start: 0.98, opacity: 0.02 }}
 			out:scale={{ duration: 150, start: 1.02, opacity: 0 }}
-			class="origin-top mx-auto md:px-8 pt-32 px-4 overflow-x-hidden"
+			class="mx-auto md:px-8 pt-32 px-4 overflow-x-hidden"
 		>
 			{@render children()}
 		</div>
 	{:else}
-		<div class="max-w-3xl origin-top mx-auto md:px-8 pt-32 px-4 overflow-x-hidden">
+		<div class="max-w-3xl mx-auto md:px-8 pt-32 px-4">
 			{#key data.url}
 				<div
-					in:scale={{ delay: 200, duration: 200, start: 0.98, opacity: 0.02 }}
-					out:scale={{ duration: 150, start: 1.02, opacity: 0 }}
-					class="overflow-hidden relative z-10"
+					in:scale={{
+						delay: 200,
+						duration: 200,
+						start: 0.98,
+						opacity: 0.02,
+						easing: materialEasing
+					}}
+					out:scale={{ duration: 150, start: 1.02, opacity: 0, easing: materialEasing }}
+					class="origin-top relative z-10"
 				>
 					{@render children()}
 				</div>

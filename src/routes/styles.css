@@ -24,8 +24,7 @@ html {
 
 html,
 body {
-	background-image: radial-gradient(#2b2b2b 1px, rgb(18, 18, 18) 1px);
-	background-size: 16px 16px;
+	background-color: rgb(0, 0, 0);
 }
 
 /**

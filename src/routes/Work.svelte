@@ -99,40 +99,40 @@
 		}
 	];
 
-	const SMALL: {
-		name: string;
-		description: string;
-		link: string;
-	}[] = [
-		{
-			name: 'Pastebin',
-			description: 'Simple paste bin - powered by SvelteKit & IPFS.',
-			link: 'https://pb.posandu.com/'
-		},
-		{
-			name: 'Home clock',
-			description: 'Firmware for ESP8266 to display time and more features.',
-			link: 'https://github.com/Posandu/home-clock'
-		},
-		{
-			name: 'Discord Bot',
-			description: 'Personal Discord bot for my server.',
-			link: 'https://github.com/Posandu/discord-bot'
-		},
-		{
-			name: 'Are we cooked yet?',
-			description: 'A parody website regarding presidential elections in Sri Lanka.',
-			link: 'https://arewecookedyet.posandu.com/'
-		},
-		{
-			name: 'pss',
-			description: 'Simple filesystem written in Rust.',
-			link: 'https://github.com/Posandu/pss/blob/main/src/main.rs'
-		}
-	];
+	// const SMALL: {
+	// 	name: string;
+	// 	description: string;
+	// 	link: string;
+	// }[] = [
+	// 	{
+	// 		name: 'Pastebin',
+	// 		description: 'Simple paste bin - powered by SvelteKit & IPFS.',
+	// 		link: 'https://pb.posandu.com/'
+	// 	},
+	// 	{
+	// 		name: 'Home clock',
+	// 		description: 'Firmware for ESP8266 to display time and more features.',
+	// 		link: 'https://github.com/Posandu/home-clock'
+	// 	},
+	// 	{
+	// 		name: 'Discord Bot',
+	// 		description: 'Personal Discord bot for my server.',
+	// 		link: 'https://github.com/Posandu/discord-bot'
+	// 	},
+	// 	{
+	// 		name: 'Are we cooked yet?',
+	// 		description: 'A parody website regarding presidential elections in Sri Lanka.',
+	// 		link: 'https://arewecookedyet.posandu.com/'
+	// 	},
+	// 	{
+	// 		name: 'pss',
+	// 		description: 'Simple filesystem written in Rust.',
+	// 		link: 'https://github.com/Posandu/pss/blob/main/src/main.rs'
+	// 	}
+	// ];
 </script>
 
-<div class="grid mt-4 gap-4 sm:grid-cols-2">
+<div class="grid mt-4 gap-8 sm:grid-cols-2">
 	{#each MAJOR as project}
 		<div
 			class="col-span-1 overflow-hidden transition-all card bg-base-100 shadow-xl border border-base-300"
@@ -141,13 +141,13 @@
 				<Img src={project.img} alt={project.name} />
 			{/if}
 
-			<div class="card-body px-4">
+			<div class="card-body px-8">
 				<h1 class="card-title">{project.name}</h1>
 
 				<p class="opacity-60">{project.description}</p>
 			</div>
 
-			<div class="card-actions px-4 mb-6">
+			<div class="card-actions px-8 mb-6">
 				{#if project.link}
 					<a href={project.link} use:ripple class="btn w-full btn-primary mr-auto" target="_blank">
 						Visit
@@ -155,26 +155,5 @@
 				{/if}
 			</div>
 		</div>
-	{/each}
-</div>
-
-<h1 class="text-lg font-semibold mt-8">Small Projects</h1>
-
-<p class="my-4">
-	These are the projects that I've worked just for the sake of learning or for fun.
-</p>
-
-<div class="space-y-3">
-	{#each SMALL as project}
-		<a
-			href={project.link}
-			use:ripple
-			class="flex items-center gap-2 text-sm hover:opacity-80"
-			target="_blank"
-		>
-			<h1 class="min-w-max">{project.name}</h1>
-			&mdash;
-			<p class="text-neutral-content/60">{project.description}</p>
-		</a>
 	{/each}
 </div>

@@ -44,6 +44,9 @@ importers:
       svelte-masonry:
         specifier: ^0.1.1
         version: 0.1.1(svelte@5.0.5)
+      svelte-portal:
+        specifier: ^2.2.1
+        version: 2.2.1
       svelte-ripple-action:
         specifier: ^1.0.6
         version: 1.0.6(svelte@5.0.5)
@@ -1507,6 +1510,9 @@ packages:
     resolution: {integrity: sha512-OsJ9n5kAVVlRxkXNZKGsyPCgaWVOM1REUzBx+pHzkWcanmctCnkrOdeoExZ/Vz4k+CeuZRQ5QkBmpB/XfQlCuA==}
     peerDependencies:
       svelte: ^4.0.0
+
+  svelte-portal@2.2.1:
+    resolution: {integrity: sha512-uF7is5sM4aq5iN7QF/67XLnTUvQCf2iiG/B1BHTqLwYVY1dsVmTeXZ/LeEyU6dLjApOQdbEG9lkqHzxiQtOLEQ==}
 
   svelte-ripple-action@1.0.6:
     resolution: {integrity: sha512-0FVy815Xu6nxbWmuNk/T+n9/9zvD+jw5eAdG54RJvVwKnRuNLoUwZgMdoHdyf+huQV+qKzPJgGp549RZu/vvfw==}
@@ -3191,6 +3197,8 @@ snapshots:
   svelte-masonry@0.1.1(svelte@5.0.5):
     dependencies:
       svelte: 5.0.5
+
+  svelte-portal@2.2.1: {}
 
   svelte-ripple-action@1.0.6(svelte@5.0.5):
     dependencies:

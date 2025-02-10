@@ -19,6 +19,45 @@ module.exports = {
 	},
 	plugins: [require('daisyui'), require('tailwindcss-animate')],
 	daisyui: {
-		themes: ['dark']
+		themes: [
+			{
+				gmm: {
+					primary: '#4768fa',
+					'primary-focus': '#153ff9',
+					'primary-content': '#ffffff',
+
+					secondary: '#7b92b2',
+					'secondary-focus': '#5b769a',
+					'secondary-content': '#ffffff',
+
+					accent: '#67cba0',
+					'accent-focus': '#41be88',
+					'accent-content': '#ffffff',
+
+					neutral: '#161827',
+					'neutral-focus': '#06060a',
+					'neutral-content': '#eaf0f6',
+
+					'base-100': '#0f0f17',
+					'base-200': '#060609',
+					'base-300': '#020203',
+					'base-content': '#eaf0f6',
+
+					info: '#1c92f2',
+					success: '#009485',
+					warning: '#ff9900',
+					error: '#ff5724',
+
+					'--rounded-box': '1rem',
+					'--rounded-btn': '.5rem',
+					'--rounded-badge': '1.9rem',
+					'--animation-btn': '0',
+					'--animation-input': '0',
+					'--btn-text-case': 'uppercase',
+					'--navbar-padding': '.5rem',
+					'--border-btn': '1px'
+				}
+			}
+		]
 	}
 };

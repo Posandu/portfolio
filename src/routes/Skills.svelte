@@ -31,7 +31,7 @@
 <div class="col-span-1 grid md:grid-cols-3 flex-col gap-4">
 	{#each dataArray as { name, icon: Icon }}
 		<div
-			class="flex gap-4 items-center bg-base-200 rounded-lg px-4 py-4 hover:bg-base-300 transition-all"
+			class="flex gap-4 items-center bg-base-100 rounded-lg p-4"
 		>
 			<Icon class="size-8" />
 

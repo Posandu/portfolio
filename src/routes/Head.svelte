@@ -60,18 +60,22 @@
 <svelte:window onscroll={update} />
 
 <div
-	class="fixed flex items-center justify-center z-50 w-full top-4 left-0"
+	class="fixed select-none flex items-center justify-center z-50 w-full top-4 left-0"
 	style="transform: translateY({currentAppBarOffsetTop}px); "
 >
-	<div class="bg-white/5 md:flex hidden backdrop-blur-md rounded-full p-2 shadow-floating-xl">
+	<div
+		class="border border-white/10 md:flex hidden backdrop-blur-md rounded-full p-2 shadow-floating-xl"
+	>
 		{#each menuItems as item}
 			<a
 				class={clsx(
 					'px-4 transition-all py-2 transition- rounded-full',
-					activePagePath === item.link ? 'bg-white/5' : 'hover:bg-white/5'
+					activePagePath === item.link ? 'bg-white/10' : 'hover:bg-white/5'
 				)}
 				href={item.link}
-				use:ripple
+				use:ripple={{
+					color: 'rgba(255, 255, 255, 0.2)'
+				}}
 				target={item.link.startsWith('http') ? '_blank' : undefined}
 			>
 				{item.name}
