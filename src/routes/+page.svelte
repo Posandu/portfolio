@@ -1,210 +1,247 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
-	import TypingComponent from './TypingComponent.svelte';
-	import { ripple } from 'svelte-ripple-action';
-	import { getSpotifyData, type NowPlaying } from './spotify';
-	import Work from './Work.svelte';
-	import Skills from './Skills.svelte';
-	import SvelteSeo from 'svelte-seo';
-	import { Renderer } from './render';
-	import Portal from 'svelte-portal';
+	type Project = {
+		name: string;
+		description: string;
+		link: string;
+	};
 
-	let spotifyData: NowPlaying | false = $state(false);
-	let refreshInterval: NodeJS.Timeout;
+	type Skill = {
+		icon: string;
+		name: string;
+	};
 
-	/**
-	 * Made by Matthias Hurrle (@atzedent) - Thank you! https://codepen.io/atzedent/pen/NWVYOMG
-	 */
-	const SHADER = `#version 300 es
-precision highp float;
-out vec4 O;
-uniform float time;
-uniform vec2 resolution;
-#define FC gl_FragCoord.xy
-#define R resolution
-#define T time
-#define hue(a) (.6+.6*cos(6.3*(a)+vec3(0,83,21)))
-float rnd(float a) {
-	vec2 p=fract(a*vec2(12.9898,78.233));	p+=dot(p,p*345.);
-	return fract(p.x*p.y);
-}
-vec3 pattern(vec2 uv) {
-	vec3 col=vec3(0);
-	for (float i=.0; i++<20.;) {
-		float a=rnd(i);
-		vec2 n=vec2(a,fract(a*34.56)), p=sin(n*(T+7.)+T*.5);
-		float d=dot(uv-p,uv-p);
-		col+=.00125/d*hue(dot(uv,uv)+i*.125+T);
-	}
-	return col;
-}
-void main(void) {
-	vec2 uv=(FC-R)/min(R.x,R.y);
-	vec3 col=vec3(0);
-	float s=2.4,
-	a=atan(uv.x,uv.y),
-	b=length(uv);
-	uv=vec2(a*5./6.28318,.05/tan(b)+T);
-	uv=fract(uv)-.5;
-	col+=pattern(uv*s);
-	O=vec4(col,1);
-}`;
-
-	let canvas = $state<HTMLCanvasElement>();
-	let exitFn = $state<() => void>();
-	let loaded = $state(false);
-
-	onDestroy(() => {
-		loaded = false;
-		clearInterval(refreshInterval);
-
-		if (exitFn) {
-			exitFn();
+	const PROJECTS: Project[] = [
+		{
+			name: 'Tronic247',
+			description:
+				"My blog, initially made with WordPress, now with SvelteKit. Was featured on Svelte's blog several times.",
+			link: 'https://www.tronic247.com/'
+		},
+		{
+			name: 'Svelte Ripple Action',
+			description: 'A Svelte action for adding a ripple effect to elements. Used by 40+ projects.',
+			link: 'https://ripple.posandu.com/'
+		},
+		{
+			name: 'Win11 Svelte',
+			description:
+				'Created by http://yashash.dev/ and me. A Windows 11 recreation, made with Svelte & Vite.',
+			link: 'https://win11-svelte.vercel.app/'
+		},
+		{
+			name: 'Pastebin',
+			description: 'Simple paste bin - powered by SvelteKit & IPFS.',
+			link: 'https://pb.posandu.com'
+		},
+		{
+			name: 'Home clock',
+			description: 'Firmware for ESP8266 to display time and more features.',
+			link: 'https://github.com/Posandu/home-clock'
+		},
+		{
+			name: 'Discord Bot',
+			description: 'Personal Discord bot for my server.',
+			link: 'https://github.com/Posandu/discord-bot'
+		},
+		{
+			name: 'pss',
+			description: 'Simple filesystem written in Rust.',
+			link: 'https://github.com/Posandu/pss/'
+		},
+		{
+			name: 'Jobsite Sentry Website',
+			description: 'Website for Jobsite Sentry. Made with SvelteKit.',
+			link: 'https://jobsitesentry.com/'
+		},
+		{
+			name: 'Tronic247 Material',
+			description: 'CSS framework for building responsive websites. Used by several projects.',
+			link: 'https://material.pages.dev/'
+		},
+		{
+			name: 'Win11React',
+			description:
+				'Windows 11 recreation in React. Made by a large team of developers, but I was one of the first and major contributors. Went viral on the internet during the time Windows 11 was introduced.',
+			link: 'https://win11.blueedge.me/'
+		},
+		{
+			name: 'Synapsis',
+			description:
+				'An AI-powered note-taking app for students, it was the first of its kind. Won a hackathon hosted by Hashnode.',
+			link: 'https://synapsis.posandu.com/'
+		},
+		{
+			name: 'TerminAI',
+			description: 'Generates terminal commands with AI. Discontinued.',
+			link: 'https://github.com/archive-pos/terminai'
+		},
+		{
+			name: 'StackFlex',
+			description:
+				'A modern copy-pasting alternative for developers. Won a hackathon hosted by Hashnode. Discontinued.',
+			link: 'https://github.com/Posandu/stackflex'
+		},
+		{
+			name: 'Tcol',
+			description: 'Library for creating colored text in the terminal.',
+			link: 'https://github.com/archive-pos/tcol'
 		}
-	});
+	];
 
-	function init() {
-		let renderer: Renderer | null = null;
-		if (!canvas) return;
-
-		const resize = () => {
-			if (!canvas) return;
-
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight - 180;
-			if (renderer) {
-				renderer.updateScale(1);
-			}
-		};
-		const source = SHADER;
-
-		renderer = new Renderer(canvas, 1);
-		renderer.setup();
-		renderer.init();
-		resize();
-		if (renderer.test(source) === null) {
-			renderer.updateShader(source);
+	const SKILLS: Skill[] = [
+		{
+			name: 'TypeScript',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><g clip-path="url(#akarIconsTypescriptFill0)"><path fill="currentColor" d="M23.429 0H.57A.57.57 0 0 0 0 .571V23.43a.57.57 0 0 0 .571.571H23.43a.57.57 0 0 0 .571-.571V.57a.57.57 0 0 0-.572-.57m-9.143 12.826h-2.857v8.888H9.143v-8.888H6.286v-1.969h8zm.64 8.38v-2.375s1.298.978 2.855.978s1.497-1.018 1.497-1.158c0-1.477-4.412-1.477-4.412-4.751c0-4.452 6.429-2.695 6.429-2.695l-.08 2.116s-1.078-.719-2.296-.719s-1.657.58-1.657 1.198c0 1.597 4.452 1.438 4.452 4.652c0 4.95-6.788 2.755-6.788 2.755"/></g><defs><clipPath id="akarIconsTypescriptFill0"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath></defs></g></svg>`
+		},
+		{
+			name: 'CSS',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="m1.5 0l1.594 18.056L10 20l6.906-1.944L18.5 0zm13.577 5.852L9.994 8.125l-.013.005h4.917l-.563 6.762l-4.334 1.323l-.007-.003v.003l-4.358-1.348l-.28-3.405h2.162l.14 1.764l2.316.611l.02-.006v.003l2.397-.706l.164-2.842l-2.561-.008l-4.78-.016l-.163-2.132l4.943-2.153l.288-.125H4.864l-.259-2.18h10.683z"/></svg>`
+		},
+		{
+			name: 'HTML',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m3 2l1.578 17.824L12 22l7.467-2.175L21 2zm14.049 6.048H9.075l.172 2.016h7.697l-.626 6.565l-4.246 1.381l-4.281-1.455l-.288-2.932h2.024l.16 1.411l2.4.815l2.346-.763l.297-3.005H7.416l-.562-6.05h10.412z"/></svg>`
+		},
+		{
+			name: 'Rust',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="currentColor" d="m31.584 15.615l-1.329-.823a7 7 0 0 0-.036-.385l1.141-1.063a.463.463 0 0 0-.152-.765l-1.459-.543a9 9 0 0 0-.113-.38l.905-1.26a.454.454 0 0 0-.296-.719l-1.537-.251q-.087-.172-.181-.344l.645-1.416a.45.45 0 0 0-.036-.443a.46.46 0 0 0-.396-.203l-1.563.057a7 7 0 0 0-.245-.303l.36-1.516a.46.46 0 0 0-.552-.552l-1.516.36a6 6 0 0 0-.303-.245l.057-1.563a.455.455 0 0 0-.645-.432l-1.416.645c-.115-.061-.229-.124-.349-.181l-.251-1.537a.458.458 0 0 0-.719-.296l-1.26.905q-.188-.06-.375-.113L19.415.796a.458.458 0 0 0-.76-.157l-1.063 1.147a7 7 0 0 0-.391-.041L16.384.421a.454.454 0 0 0-.776 0l-.823 1.324q-.197.015-.385.041L13.337.639a.46.46 0 0 0-.765.157l-.543 1.453c-.129.036-.249.077-.38.113l-1.26-.905a.458.458 0 0 0-.719.296L9.419 3.29c-.115.057-.228.12-.343.181l-1.417-.645a.455.455 0 0 0-.645.432l.052 1.563q-.15.119-.297.245l-1.52-.36a.458.458 0 0 0-.548.552l.355 1.516c-.084.099-.161.197-.245.303L3.254 7.02a.456.456 0 0 0-.432.645l.647 1.416l-.188.344l-1.536.251a.46.46 0 0 0-.297.719l.912 1.26a9 9 0 0 0-.115.38l-1.459.543a.46.46 0 0 0-.151.765l1.14 1.063a7 7 0 0 0-.036.385l-1.328.823a.45.45 0 0 0 0 .771l1.328.823q.013.198.036.385l-1.14 1.068a.454.454 0 0 0 .151.76l1.459.548q.052.186.115.375l-.912 1.26a.458.458 0 0 0 .301.719l1.537.251q.087.172.183.344l-.647 1.416a.456.456 0 0 0 .432.645l1.557-.052c.084.1.161.199.251.297l-.36 1.521a.456.456 0 0 0 .548.547l1.52-.355c.099.084.199.161.303.245l-.057 1.557a.453.453 0 0 0 .645.432l1.417-.645q.172.092.343.187l.256 1.537a.455.455 0 0 0 .713.296l1.265-.911q.188.06.375.113l.548 1.459a.452.452 0 0 0 .76.152l1.063-1.141q.192.026.385.041l.823 1.328a.457.457 0 0 0 .776 0l.823-1.328c.131-.009.256-.025.385-.041l1.063 1.141a.456.456 0 0 0 .76-.152l.548-1.459q.186-.053.375-.113l1.26.911a.456.456 0 0 0 .719-.296l.251-1.537q.179-.094.349-.187l1.416.645a.457.457 0 0 0 .645-.432l-.057-1.557c.105-.084.204-.161.297-.245l1.521.355a.46.46 0 0 0 .552-.547l-.36-1.521q.127-.148.245-.297l1.563.052a.455.455 0 0 0 .432-.645l-.645-1.416q.093-.172.181-.344l1.537-.251a.458.458 0 0 0 .296-.719l-.905-1.26l.113-.375l1.453-.548a.455.455 0 0 0 .157-.76l-1.141-1.068c.011-.124.027-.255.036-.385l1.329-.823a.45.45 0 0 0 0-.771zm-8.881 11c-1.224-.26-.833-2.099.396-1.839a.94.94 0 0 1-.396 1.839m-.448-3.047a.853.853 0 0 0-1.015.661l-.475 2.192A11.5 11.5 0 0 1 16 27.453a11.5 11.5 0 0 1-4.864-1.073l-.475-2.197a.85.85 0 0 0-1.016-.656l-1.937.411a11 11 0 0 1-1.005-1.183h9.443c.105 0 .177-.015.177-.115v-3.337c0-.1-.072-.115-.177-.115h-2.765v-2.12h2.989c.271 0 1.459.077 1.833 1.593c.12.464.381 1.979.557 2.464c.177.547.901 1.629 1.672 1.629h4.704a1 1 0 0 0 .171-.015a11 11 0 0 1-1.067 1.255zM9.197 26.573a.95.95 0 0 1-1.119-.724a.933.933 0 0 1 .724-1.115a.94.94 0 0 1 .395 1.839M5.615 12.047a.945.945 0 0 1-.464 1.271a.95.95 0 0 1-1.255-.505c-.459-1.124 1.192-1.859 1.719-.765zm-1.099 2.609l2.02-.896c.433-.192.625-.697.433-1.129l-.417-.943h1.641v7.38H4.89a11.6 11.6 0 0 1-.375-4.412zm8.869-.713v-2.177h3.896c.203 0 1.421.235 1.421 1.147c0 .76-.937 1.031-1.703 1.031zm14.167 1.958q0 .431-.031.853h-1.188c-.12 0-.167.079-.167.199v.541c0 1.281-.719 1.557-1.355 1.631c-.604.068-1.271-.251-1.353-.62c-.355-2-.948-2.427-1.885-3.167c1.161-.74 2.369-1.823 2.369-3.281c0-1.573-1.079-2.563-1.812-3.047c-1.032-.683-2.172-.817-2.48-.817H7.395a11.55 11.55 0 0 1 6.459-3.652l1.448 1.521a.854.854 0 0 0 1.208.025l1.615-1.547a11.55 11.55 0 0 1 7.911 5.631l-1.109 2.5a.863.863 0 0 0 .437 1.131l2.131.947c.036.381.052.761.052 1.152zM15.303 3.255c.905-.864 2.203.495 1.296 1.36c-.901.781-2.115-.495-1.296-1.36m10.984 8.838a.937.937 0 0 1 1.235-.479c.771.339.744 1.437-.037 1.74c-.787.301-1.541-.495-1.197-1.261z"/></svg>`
+		},
+		{
+			name: 'SCSS',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="white" fill-rule="evenodd" d="M16 2A14 14 0 1 1 2 16A14 14 0 0 1 16 2"/><path fill="black" d="M24.782 7.992c-.634-2.486-4.757-3.3-8.659-1.918a19.6 19.6 0 0 0-6.644 3.811c-2.149 2.01-2.492 3.76-2.351 4.491c.5 2.58 4.033 4.266 5.486 5.517v.007c-.428.211-3.564 1.8-4.3 3.42c-.774 1.712.123 2.94.718 3.105A4.4 4.4 0 0 0 13.78 24.5a4.82 4.82 0 0 0 .472-4.288a5.6 5.6 0 0 1 2.143-.123c2.456.287 2.938 1.82 2.846 2.462a1.62 1.62 0 0 1-.779 1.1c-.172.107-.225.143-.21.223c.021.115.1.111.247.086a1.915 1.915 0 0 0 1.336-1.707c.059-1.5-1.382-3.186-3.934-3.143a6.7 6.7 0 0 0-2.189.3l-.108-.12c-1.578-1.683-4.494-2.874-4.371-5.137c.045-.823.331-2.989 5.6-5.617c4.32-2.153 7.778-1.56 8.376-.247c.854 1.876-1.848 5.361-6.334 5.864a3.37 3.37 0 0 1-2.833-.718c-.236-.26-.271-.271-.359-.223c-.143.079-.052.309 0 .445a2.66 2.66 0 0 0 1.621 1.274a8.6 8.6 0 0 0 5.258-.52c2.721-1.049 4.843-3.974 4.22-6.419M13.218 20.663a3.6 3.6 0 0 1-.029 2.092q-.035.106-.077.21t-.091.2a4 4 0 0 1-.647.943c-.813.887-1.95 1.223-2.437.94c-.526-.305-.263-1.556.68-2.553a9.5 9.5 0 0 1 2.474-1.762Z"/></svg>`
+		},
+		{
+			name: 'MySQL',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M20.422 17.337c-1.088-.03-1.932.081-2.64.379c-.203.082-.53.082-.557.338c.11.108.122.284.218.433c.163.27.449.635.707.824l.87.622c.531.325 1.13.514 1.647.838c.299.19.598.433.898.636c.152.108.244.284.435.352v-.041c-.095-.122-.123-.297-.217-.433l-.409-.392a6.4 6.4 0 0 0-1.415-1.365c-.435-.298-1.387-.703-1.564-1.203l-.027-.03c.299-.03.653-.136.939-.217c.463-.121.884-.095 1.36-.216l.653-.19v-.12c-.245-.244-.422-.569-.68-.798a18 18 0 0 0-2.245-1.663c-.422-.27-.966-.447-1.415-.676c-.164-.081-.435-.122-.53-.257c-.246-.297-.381-.69-.558-1.041l-1.116-2.353c-.245-.527-.395-1.054-.694-1.54c-1.4-2.3-2.925-3.692-5.265-5.058c-.503-.284-1.101-.406-1.738-.554l-1.02-.055c-.218-.094-.436-.351-.626-.473c-.775-.487-2.775-1.541-3.347-.151c-.368.878.544 1.743.854 2.19c.231.31.53.662.694 1.014c.091.23.122.473.217.716c.218.595.422 1.258.708 1.812c.152.284.312.582.503.839c.109.151.3.216.34.46c-.19.27-.204.675-.313 1.014c-.49 1.528-.3 3.42.395 4.545c.218.338.731 1.082 1.428.798c.613-.244.476-1.014.653-1.69c.041-.162.014-.27.095-.379v.03l.558 1.123c.422.662 1.157 1.352 1.769 1.812c.326.243.584.662.992.81v-.04h-.026c-.082-.121-.205-.176-.314-.27a6.6 6.6 0 0 1-.707-.812a17.4 17.4 0 0 1-1.523-2.46c-.218-.42-.409-.879-.585-1.298c-.083-.162-.083-.406-.218-.487c-.205.297-.503.555-.654.92c-.258.58-.285 1.297-.38 2.041c-.055.014-.03 0-.055.03c-.435-.107-.585-.554-.748-.932c-.408-.96-.476-2.501-.123-3.61c.096-.284.504-1.177.341-1.447c-.082-.257-.354-.405-.504-.608a5.5 5.5 0 0 1-.49-.865c-.325-.758-.489-1.596-.843-2.353c-.163-.352-.449-.717-.68-1.041c-.259-.365-.544-.622-.748-1.055c-.068-.151-.163-.392-.054-.554c.026-.108.081-.152.19-.176c.176-.151.68.04.857.121c.503.203.925.392 1.347.676c.19.135.394.392.64.46h.285c.436.095.925.03 1.333.152c.72.23 1.374.567 1.96.933a12 12 0 0 1 4.244 4.624c.163.311.23.595.38.92c.287.662.64 1.338.926 1.987c.286.636.558 1.285.966 1.812c.204.284 1.02.433 1.387.582c.272.12.694.23.94.378c.461.284.924.609 1.359.92c.217.162.898.5.939.77zM6.548 5.588a2.2 2.2 0 0 0-.557.068v.03h.027c.109.216.3.365.435.555l.313.649l.027-.03c.19-.136.286-.352.286-.676c-.082-.095-.095-.19-.163-.284c-.082-.135-.259-.203-.368-.311" clip-rule="evenodd"/></svg>`
+		},
+		{
+			name: 'PostgreSQL',
+			icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M16.238 2a8.5 8.5 0 0 0-2.295.336l-.053.017a9 9 0 0 0-1.425-.138c-.982-.017-1.825.222-2.505.618c-.67-.232-2.06-.633-3.525-.553c-1.02.056-2.133.366-2.958 1.237c-.823.87-1.258 2.218-1.166 4.051c.025.506.17 1.331.408 2.4c.24 1.068.575 2.319.994 3.46s.879 2.166 1.596 2.863c.359.35.852.642 1.434.618c.408-.016.777-.195 1.095-.46c.155.204.321.294.472.376c.19.104.375.175.567.222c.344.086.933.2 1.623.083c.235-.039.483-.116.73-.225c.008.275.02.544.03.817c.034.863.056 1.66.315 2.36c.042.114.156.702.606 1.221s1.332.845 2.336.63c.708-.152 1.609-.425 2.207-1.277c.592-.842.859-2.05.911-4.008a4 4 0 0 1 .046-.28l.14.013h.017c.756.034 1.576-.073 2.261-.392c.607-.28 1.066-.565 1.4-1.069a1.07 1.07 0 0 0 .2-.536c.025-.26-.124-.666-.371-.854c-.496-.377-.808-.233-1.142-.164q-.496.109-1.002.122a19.2 19.2 0 0 0 2.049-4.871c.233-.9.364-1.73.375-2.456c.01-.726-.049-1.368-.484-1.924c-1.359-1.737-3.27-2.217-4.748-2.234h-.138zm-.039.533c1.399-.013 3.185.38 4.468 2.019c.288.368.374.906.364 1.57c-.01.662-.133 1.456-.357 2.325a18.7 18.7 0 0 1-2.415 5.406q.062.044.132.072c.242.1.793.186 1.892-.04c.276-.058.479-.097.689.063a.44.44 0 0 1 .152.354a.6.6 0 0 1-.108.28c-.212.319-.632.621-1.17.87c-.475.222-1.157.338-1.762.345a2.7 2.7 0 0 1-.821-.094l-.015-.006c-.092.883-.303 2.627-.44 3.423c-.11.642-.303 1.152-.67 1.534c-.367.381-.886.611-1.585.761c-.865.186-1.495-.014-1.902-.357c-.406-.341-.592-.794-.703-1.072c-.077-.192-.117-.44-.155-.772a17 17 0 0 1-.086-1.195q-.039-1.05-.025-2.102a2.55 2.55 0 0 1-1.293.633a3.4 3.4 0 0 1-1.393-.075a2 2 0 0 1-.433-.167c-.142-.076-.277-.162-.367-.331a.47.47 0 0 1-.048-.318a.5.5 0 0 1 .182-.276c.165-.134.383-.209.713-.277c.599-.123.808-.207.935-.308c.109-.087.231-.262.448-.519l-.002-.034a2.5 2.5 0 0 1-1.109-.298a37 37 0 0 0-1.542 1.743c-.327.392-.689.617-1.07.633s-.727-.176-1.02-.46c-.586-.57-1.054-1.549-1.461-2.655c-.407-1.107-.738-2.34-.973-3.39c-.236-1.05-.375-1.896-.395-2.305c-.087-1.735.319-2.904 1.014-3.641c.697-.738 1.652-1.017 2.583-1.07c1.67-.096 3.257.486 3.578.611c.619-.42 1.415-.681 2.41-.665c.473.007.943.068 1.401.182l.017-.007q.303-.107.616-.179a8 8 0 0 1 1.725-.209zm.127.559h-.122q-.718.01-1.42.16a6.24 6.24 0 0 1 2.375 1.875a7 7 0 0 1 .944 1.6q.136.332.188.55c.017.072.03.133.033.196a.3.3 0 0 1-.01.12l-.005.011c.025.73-.155 1.225-.177 1.922c-.017.505.112 1.098.144 1.746c.03.608-.043 1.276-.438 1.932l.095.12c1.045-1.646 1.798-3.466 2.2-5.019c.215-.836.329-1.593.339-2.193c.008-.6-.104-1.035-.246-1.217c-1.118-1.43-2.632-1.794-3.9-1.804m-3.992.213c-.985.003-1.691.3-2.227.746c-.553.46-.924 1.092-1.167 1.737A7.4 7.4 0 0 0 8.513 7.8l.01-.007a4.3 4.3 0 0 1 1.107-.43c.418-.095.87-.125 1.278.033s.745.53.868 1.096c.587 2.714-.182 3.723-.466 4.485q-.161.415-.276.844c.036-.008.072-.018.108-.022c.2-.016.357.05.45.09c.285.119.48.367.586.65q.042.113.06.237a.3.3 0 0 1 .016.106a46 46 0 0 0 .011 3.115c.02.448.048.843.083 1.155c.036.31.087.547.12.627c.106.267.262.616.544.854c.281.236.686.395 1.424.236c.64-.137 1.035-.328 1.3-.602c.262-.274.42-.656.52-1.24c.152-.875.455-3.413.492-3.89c-.017-.36.036-.637.151-.848a1 1 0 0 1 .46-.42c.08-.036.154-.06.214-.078a5 5 0 0 0-.202-.27a3.7 3.7 0 0 1-.555-.917a7 7 0 0 0-.214-.402c-.111-.2-.251-.45-.398-.731c-.293-.563-.612-1.244-.778-1.908c-.165-.664-.19-1.35.234-1.835c.375-.43 1.034-.608 2.022-.508c-.03-.087-.047-.16-.096-.277a6.5 6.5 0 0 0-.867-1.47c-.838-1.07-2.194-2.132-4.289-2.166h-.096zM6.8 3.348q-.159 0-.316.01c-.842.048-1.638.292-2.207.895c-.57.604-.945 1.593-.863 3.23c.015.31.15 1.179.382 2.21c.23 1.032.558 2.246.952 3.319s.871 2.006 1.325 2.447c.228.221.426.31.606.303c.181-.008.399-.113.665-.432q.726-.877 1.508-1.707a2.91 2.91 0 0 1-.973-2.625a10 10 0 0 0 .088-1.646c-.01-.444-.042-.739-.042-.923v-.025a8.2 8.2 0 0 1 .493-2.814c.233-.62.58-1.25 1.101-1.76c-.511-.168-1.42-.425-2.403-.473a6 6 0 0 0-.317-.009zM17.131 7.75c-.566.008-.883.153-1.05.344c-.236.271-.258.746-.112 1.331c.146.586.448 1.24.731 1.785c.142.273.28.518.39.717c.112.2.194.341.244.462a3 3 0 0 0 .148.302c.219-.463.258-.917.236-1.39c-.03-.586-.165-1.185-.145-1.792c.022-.709.162-1.17.175-1.719a5 5 0 0 0-.617-.04m-6.862.096a2.4 2.4 0 0 0-.513.062a4 4 0 0 0-.96.374q-.154.082-.292.19l-.018.016c.005.122.03.417.04.851c.01.475-.003 1.081-.094 1.737c-.2 1.425.835 2.605 2.05 2.607c.07-.293.187-.59.304-.902c.338-.912 1.004-1.577.443-4.172c-.091-.425-.273-.596-.523-.693a1.2 1.2 0 0 0-.437-.07m6.598.17h.041a.7.7 0 0 1 .15.018q.069.015.116.046a.14.14 0 0 1 .062.092v.006a.2.2 0 0 1-.03.113a.6.6 0 0 1-.092.125a.56.56 0 0 1-.321.177a.5.5 0 0 1-.342-.086a.5.5 0 0 1-.108-.099a.2.2 0 0 1-.053-.105a.14.14 0 0 1 .035-.107a.3.3 0 0 1 .098-.075a1.1 1.1 0 0 1 .444-.107zm-6.517.14q.066 0 .139.01c.127.018.24.052.327.102q.064.033.11.089q.026.029.038.066q.011.037.008.075a.25.25 0 0 1-.063.129a.5.5 0 0 1-.119.108a.53.53 0 0 1-.373.094a.6.6 0 0 1-.35-.19a.6.6 0 0 1-.099-.136a.23.23 0 0 1-.034-.148c.013-.09.087-.137.16-.162a.7.7 0 0 1 .255-.034zm7.55 6.12h-.002c-.123.044-.224.063-.309.1a.38.38 0 0 0-.199.178c-.052.096-.097.266-.084.555q.058.04.123.059c.143.043.382.071.649.067c.531-.006 1.186-.13 1.533-.291c.285-.133.55-.306.786-.513c-1.162.24-1.818.176-2.22.01a1.1 1.1 0 0 1-.277-.167zm-6.692.078h-.018c-.044.004-.108.019-.232.156c-.29.325-.392.53-.631.72c-.24.19-.55.292-1.171.42a1.6 1.6 0 0 0-.384.12c.024.02.021.024.058.043c.09.05.208.095.302.119c.266.066.705.144 1.162.066c.458-.078.934-.297 1.34-.866c.07-.098.077-.243.02-.4c-.059-.155-.186-.29-.276-.327a.6.6 0 0 0-.17-.05z"/></svg>`
+		},
+		{
+			name: 'Git',
+			icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M2.6 10.59L8.38 4.8l1.69 1.7c-.24.85.15 1.78.93 2.23v5.54c-.6.34-1 .99-1 1.73a2 2 0 0 0 2 2a2 2 0 0 0 2-2c0-.74-.4-1.39-1-1.73V9.41l2.07 2.09c-.07.15-.07.32-.07.5a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2c-.18 0-.35 0-.5.07L13.93 7.5a1.98 1.98 0 0 0-1.15-2.34c-.43-.16-.88-.2-1.28-.09L9.8 3.38l.79-.78c.78-.79 2.04-.79 2.82 0l7.99 7.99c.79.78.79 2.04 0 2.82l-7.99 7.99c-.78.79-2.04.79-2.82 0L2.6 13.41c-.79-.78-.79-2.04 0-2.82"/></svg>'
+		},
+		{
+			name: 'Svelte',
+			icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10.99 1.974c2.92-1.86 6.957-.992 9.001 1.934a6.27 6.27 0 0 1 1.072 4.74a5.9 5.9 0 0 1-.88 2.198c.64 1.221.855 2.62.61 3.977a5.88 5.88 0 0 1-2.657 3.94l-5.127 3.268c-2.92 1.86-6.957.993-9.002-1.933a6.27 6.27 0 0 1-1.07-4.741a5.9 5.9 0 0 1 .88-2.198a6.2 6.2 0 0 1-.611-3.977a5.88 5.88 0 0 1 2.658-3.94zM8.049 20.25c.782.29 1.633.332 2.44.123c.369-.099.72-.253 1.042-.458l5.128-3.267a3.54 3.54 0 0 0 1.598-2.37a3.77 3.77 0 0 0-.645-2.85a4.07 4.07 0 0 0-4.37-1.62c-.369.099-.72.253-1.042.458l-1.957 1.246a1.1 1.1 0 0 1-.314.138a1.227 1.227 0 0 1-1.5-.899a1.1 1.1 0 0 1-.01-.45a1.07 1.07 0 0 1 .48-.713l5.129-3.268a1.1 1.1 0 0 1 .314-.138a1.23 1.23 0 0 1 1.317.489c.157.222.23.492.207.762l-.018.19l.191.058a6.6 6.6 0 0 1 2.005 1.003l.263.192l.096-.295q.078-.235.123-.478a3.77 3.77 0 0 0-.644-2.85a4.07 4.07 0 0 0-4.371-1.621a3.7 3.7 0 0 0-1.042.458L7.34 7.357a3.54 3.54 0 0 0-1.6 2.37a3.77 3.77 0 0 0 .645 2.85a4.07 4.07 0 0 0 4.371 1.62c.369-.099.72-.253 1.042-.457l1.956-1.248q.148-.093.315-.137a1.23 1.23 0 0 1 1.5.899c.034.147.037.3.011.449a1.07 1.07 0 0 1-.482.713l-5.127 3.269a1.1 1.1 0 0 1-.314.137a1.23 1.23 0 0 1-1.317-.488a1.15 1.15 0 0 1-.207-.762l.017-.19l-.19-.058a6.6 6.6 0 0 1-2.005-1.003l-.263-.192l-.096.295a4 4 0 0 0-.123.478a3.77 3.77 0 0 0 .644 2.85a4.07 4.07 0 0 0 1.93 1.498"/></svg>'
+		},
+		{
+			name: 'Docker',
+			icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.81 10.25c-.06-.04-.56-.43-1.64-.43c-.28 0-.56.03-.84.08c-.21-1.4-1.38-2.11-1.43-2.14l-.29-.17l-.18.27c-.24.36-.43.77-.51 1.19c-.2.8-.08 1.56.33 2.21c-.49.28-1.29.35-1.46.35H2.62c-.34 0-.62.28-.62.63c0 1.15.18 2.3.58 3.38c.45 1.19 1.13 2.07 2 2.61c.98.6 2.59.94 4.42.94c.79 0 1.61-.07 2.42-.22c1.12-.2 2.2-.59 3.19-1.16A8.3 8.3 0 0 0 16.78 16c1.05-1.17 1.67-2.5 2.12-3.65h.19c1.14 0 1.85-.46 2.24-.85c.26-.24.45-.53.59-.87l.08-.24zm-17.96.99h1.76c.08 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16H3.85c-.09 0-.16.07-.16.16v1.58c.01.09.07.16.16.16m2.43 0h1.76c.08 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16H6.28c-.09 0-.16.07-.16.16v1.58c.01.09.07.16.16.16m2.47 0h1.75c.1 0 .17-.07.17-.16V9.5c0-.08-.06-.16-.17-.16H8.75c-.08 0-.15.07-.15.16v1.58c0 .09.06.16.15.16m2.44 0h1.77c.08 0 .15-.07.15-.16V9.5c0-.08-.06-.16-.15-.16h-1.77c-.08 0-.15.07-.15.16v1.58c0 .09.07.16.15.16M6.28 9h1.76c.08 0 .16-.09.16-.18V7.25c0-.09-.07-.16-.16-.16H6.28c-.09 0-.16.06-.16.16v1.57c.01.09.07.18.16.18m2.47 0h1.75c.1 0 .17-.09.17-.18V7.25c0-.09-.06-.16-.17-.16H8.75c-.08 0-.15.06-.15.16v1.57c0 .09.06.18.15.18m2.44 0h1.77c.08 0 .15-.09.15-.18V7.25c0-.09-.07-.16-.15-.16h-1.77c-.08 0-.15.06-.15.16v1.57c0 .09.07.18.15.18m0-2.28h1.77c.08 0 .15-.07.15-.16V5c0-.1-.07-.17-.15-.17h-1.77c-.08 0-.15.06-.15.17v1.56c0 .08.07.16.15.16m2.46 4.52h1.76c.09 0 .16-.07.16-.16V9.5c0-.08-.07-.16-.16-.16h-1.76c-.08 0-.15.07-.15.16v1.58c0 .09.07.16.15.16"/></svg>'
+		},
+		{
+			name: 'Writing',
+			icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M15.897 8.834a.75.75 0 0 1 .274 1.025l-3.417 5.913a.75.75 0 1 1-1.299-.75l3.418-5.914a.75.75 0 0 1 1.024-.274"/><path fill="currentColor" d="M14.989 3.785a2.6 2.6 0 0 1 1.915-.513c.295.04.562.143.828.272c.254.125.55.296.904.5l.043.025c.353.203.65.375.885.533c.245.164.469.343.65.58c.419.545.604 1.233.514 1.914a2.7 2.7 0 0 1-.273.828c-.124.254-.296.55-.5.903l-5.126 8.87a3.44 3.44 0 0 1-1.407 1.383l-1.861 1.032c-.33.183-.62.344-.866.452a2.2 2.2 0 0 1-.521.166a1 1 0 0 1-.174.02H4a.75.75 0 0 1 0-1.5h4.336l-.006-.05a12 12 0 0 1-.04-.975l-.036-2.127a3.43 3.43 0 0 1 .494-1.909l5.127-8.87c.203-.353.375-.65.533-.885c.165-.245.344-.468.58-.65m1.719.974a1.1 1.1 0 0 0-.807.216c-.053.041-.127.115-.249.297a13 13 0 0 0-.407.673l.022.008c.384.15.958.416 1.78.89c.811.468 1.319.872 1.636 1.187c.198-.342.332-.576.425-.766c.096-.197.124-.297.133-.364a1.1 1.1 0 0 0-.216-.804c-.041-.054-.115-.127-.297-.25a16 16 0 0 0-.82-.49c-.38-.22-.633-.365-.836-.464c-.197-.096-.297-.124-.364-.133m1.099 4.528l.003.008l.007.014l.008.016l-.002-.003l-.018-.04zm-.002-.005l-.001-.004v.002m.013.033a1.5 1.5 0 0 0-.168-.196c-.2-.203-.6-.54-1.352-.975c-.772-.445-1.278-.675-1.576-.792a4 4 0 0 0-.239-.085l-4.435 7.675a1.95 1.95 0 0 0-.294 1.132l.033 1.948c.49.07.924.319 1.232.678l1.677-.93a1.95 1.95 0 0 0 .835-.82l4.35-7.527a1 1 0 0 1-.057-.099z"/></svg>'
+		},
+		{
+			name: 'Designing',
+			icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.93l-3.75-3.75zm19.61 1.11l-4.25 4.25l-5.2-5.2l1.77-1.77l1 1l2.47-2.48l1.42 1.42L18.36 17l1.06 1l1.42-1.4zm-16-7.53L1.39 5.64l4.25-4.25L7.4 3.16L4.93 5.64L6 6.7l2.46-2.48l1.42 1.42l-1.42 1.41l1 1zM20.71 7c.39-.39.39-1 0-1.41l-2.34-2.3c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75z"/></svg>'
 		}
-		window.onresize = resize;
-		const loop = (now: number | undefined) => {
-			renderer.render(now);
-			requestAnimationFrame(loop);
-		};
-		loop(0);
+	];
 
-		exitFn = () => {
-			renderer?.reset();
-		};
-	}
-
-	onMount(async () => {
-		init();
-		setTimeout(() => {
-			loaded = true;
-		}, 1000);
-		spotifyData = await getSpotifyData();
-
-		refreshInterval = setInterval(async () => {
-			spotifyData = await getSpotifyData();
-		}, 20000); //20 seconds - less than 1kb of data per request so it's fine ig
-	});
+	const TESTIMONIALS = [
+		{
+			name: 'Will Yoo - Realm labs',
+			text: `I've worked with top engineers from the classic well regarded places. FANG, Stanford, Ivy League. I've seen the entire spectrum in private market tech - from startups to unicorn company to top defi protocols. I'll say Posandu is among the most reliable, talented, and high integrity of people I've ever worked with. You'd be lucky to have him anywhere near your projects.`
+		},
+		{
+			name: 'Yashash Pugalia',
+			text: `Posandu is an incredibly talented developer. I've had the pleasure
+		of collaborating with him on several projects, and I'm always impressed by
+		his knowledge and skillset. I have no doubt he'll continue to excel in his
+		future endeavours.`
+		},
+		{
+			name: 'Zach Hopkins - Digital Kinetics',
+			text: "As an IT Manager and Business Owner, I've hired many developers over the years, but Posandu truly stands out. I hired Posandu to complete an entire suite of custom management tools for a private company (CRM, Ticket Management, etc). His ability to quickly grasp complex project requirements and deliver effective solutions with minimal oversight is a breath of fresh air in the dev community. He consistently produces quality code that works seamlessly. He is easily my top choice for future development projects."
+		}
+	];
 </script>
 
-<SvelteSeo title="Posandu Mapa - About me" />
+<h1 class="title mb-4 text-4xl font-bold">Hey, I'm Posandu</h1>
 
-<div class="mt-4 text-center relative min-h-[calc(100svh-500px)] flex flex-col items-center">
-	<h2 class="text-3xl opacity-40">Hi, I'm</h2>
+<p class="text-xl text-gray-500">Software developer & student.</p>
 
-	<h1
-		class="text-5xl my-4 font-semibold text-white md:ml-0 ml-4 md:max-w-none max-w-[260px] md:text-left text-center"
-	>
-		<TypingComponent text="Posandu Mapa" />
-	</h1>
-
-	<h2 class="text-2xl opacity-40">Fullstack developer</h2>
+<div class="mt-4 max-w-xl text-gray-800">
+	Since 2020, I've been building software for clients and personal projects. I share my learning
+	experiences on my <a href="https://tronic247.com" target="_blank">blog</a>. I've worked on
+	Enterprise applications for various clients, gaining valuable experience along the way. When I'm
+	not coding, you'll find me listening to
+	<a href="https://www.last.fm/user/posandu" target="_blank">music</a>, riding my bike, or taking
+	<a href="/photos">photos</a>.
 </div>
 
-<Portal target="body">
-	<canvas
-		bind:this={canvas}
-		class="absolute pointer-events-none top-0 left-0 {loaded ? '' : 'opacity-0'}"
-		style="transition: opacity 1s"
-	></canvas>
-</Portal>
+<div class="my-16 h-[1px] w-full rounded-full bg-black/10"></div>
 
-<div class="mt-32 bg-base-100/80 rounded-lg mb-4">
-	<div class="backdrop-blur-lg leading-[40px] p-8 rounded-xl text-lg">
-		<p>
-			Hi! I'm Posandu - a student and a self-taught developer who enjoys working with technology.
-		</p>
+<h2 class="title text-3xl font-bold">Projects</h2>
 
-		<p class="my-4">
-			I spend my time tinkering on <span class="font-semibold text-green-400">software</span>,
-			<span class="font-semibold">AI stuff</span>, and
-			<span class="font-semibold text-green-400">web3</span> projects. I work mainly with
-			<span class="font-semibold text-blue-700">TypeScript</span>,
-			<span class="font-semibold text-purple-700">CSS</span>, and
-			<span class="font-semibold text-orange-400">Svelte</span>, but I've also picked up some
-			<span class="font-semibold text-[#dea584]">Rust</span> along the way.
-		</p>
+<p class="mt-2 mb-8 text-gray-500">Some of my projects.</p>
 
-		<p class="my-4">
-			Outside of tech, I like cycling, reading, writing on my blog
-			<a href="https://tronic247.com" class="text-primary hover:underline"> Tronic247 </a>, and
-			<a href="/photos" class="text-primary hover:underline">photography</a>.
-		</p>
+<div class="space-y-4">
+	{#each PROJECTS as project}
+		<div class="group flex rounded-lg bg-gray-50 p-4 transition-all hover:bg-gray-100">
+			<a
+				href={project.link}
+				class="flex min-w-[250px] items-baseline justify-start border-none font-semibold"
+				target="_blank"
+				style="letter-spacing: -0.5px;"
+			>
+				{project.name}
+
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="ml-1 inline-block size-4 opacity-0 transition-all group-hover:opacity-40"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
+					/>
+					<path
+						d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
+					/>
+				</svg>
+			</a>
+
+			<p class="inline text-gray-500">{project.description}</p>
+		</div>
+	{/each}
+</div>
+
+<h2 class="title mt-16 text-3xl font-bold">Skills</h2>
+
+<div class="mt-2 mb-8 text-gray-500">Here are some of the skills I've learned over the years.</div>
+
+{#each SKILLS as skill, i}
+	<div
+		class="group relative inline-flex size-16 items-center justify-center overflow-hidden rounded-full bg-gray-800 text-white shadow transition-all hover:z-10 hover:mr-0 hover:ml-2 hover:translate-y-[-2px] hover:shadow-lg {i <
+		SKILLS.length - 1
+			? '-mr-2'
+			: ''}"
+	>
+		<div class="size-8">{@html skill.icon}</div>
+
+		<div
+			class="absolute top-1/2 left-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-black/80 opacity-0 transition-all group-hover:opacity-100"
+		>
+			<p class="text-xs">{skill.name}</p>
+		</div>
 	</div>
-</div>
+{/each}
 
-<div class="flex-1 border border-white/20 rounded-xl p-8 relative">
-	<span class="text-base-content/40 text-2xl mb-4 block font-medium">Spotify</span>
+<h2 class="title mt-16 text-3xl font-bold">Hire Me</h2>
 
-	{#if spotifyData && spotifyData?.isPlaying === true}
-		<p class="text-lg font-bold">
-			Listening to
-			<a href={spotifyData?.songUrl}>{spotifyData?.title}</a>
-			by
-			{spotifyData?.artist}
-		</p>
-		<img
-			src={spotifyData?.albumImageUrl}
-			alt="Album art"
-			class="rounded-lg size-12 inline-block absolute right-4 top-4"
-		/>
-	{:else}
-		<p class="text-lg font-bold">Not listening to anything right now</p>
-	{/if}
+<p class="mt-2 mb-8 text-gray-500">
+	Interested in hiring me? I'm currently available for new projects.
+</p>
 
-	<a
-		href="https://www.tronic247.com/adding-your-discord-status-to-your-website"
-		class="text-sm mt-4 block"
-	>
-		Learn how I made this
-	</a>
-</div>
-
-<h2
-	class="mt-16 mb-8 text-2xl font-semibold bg-primary/20 text-primary -rotate-[4deg] rounded-lg px-6 py-2 inline-block"
->
-	Stuff I work with
-</h2>
-
-<Skills />
-
-<h2
-	class="mt-16 mb-8 text-2xl font-semibold bg-primary/20 text-primary rotate-[3deg] rounded-lg px-6 py-2 inline-block"
->
-	Some of my work
-</h2>
-
-<Work />
-
-<h2 class="mt-16 mb-8 text-2xl font-semibold">Contact me</h2>
-
-<div class="bg-base-100 p-8 rounded-lg leading-8" id="contact">
-	<p>
-		Contact me at <a href="mailto:posandumapa@gmail.com" class="link-hover">
-			posandumapa@gmail.com</a
-		>. Also, you can find me on social media using the links below.
-	</p>
+<div class="space-y-4">
+	{#each TESTIMONIALS as testimonial}
+		<div class="rounded-xl border border-gray-100 bg-white p-6">
+			<p class="text-gray-600">{testimonial.text}</p>
+			<div class="mt-4 flex items-center gap-3">
+				<p class="text-sm font-semibold text-gray-900">{testimonial.name}</p>
+			</div>
+		</div>
+	{/each}
 </div>

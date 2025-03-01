@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+@theme {
+	--font-sans: 'Inter Variable', sans-serif;
+}
+
+@layer components {
+	.title {
+		letter-spacing: -1.5px;
+	}
+}
+
+body {
+	position: relative;
+	line-height: 28px;
+
+	@apply bg-gray-100;
+}
+
+a {
+	@apply border-b-2 border-gray-200 transition-all hover:border-gray-300;
+}
+
+hr {
+	@apply my-16 border-gray-100;
+}

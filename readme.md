@@ -1,37 +1,38 @@
-# My Portfolio
+# sv
 
-A SvelteKit app. You're free to use this template, although credit is appreciated. If you do use this template, please let me know! I'd love to see what you make with it.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Getting Started
+## Creating a project
 
-Clone the repo and install the dependencies:
-
-```bash
-pnpm install
-```
-
-Then, edit code in `src/routes` and `src/lib`. You can start the dev server with:
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-pnpm run dev
+# create a new project in the current directory
+npx sv create
+
+# create a new project in my-app
+npx sv create my-app
 ```
 
-For the guestbook, you'll need to set up a Firebase project and edit the `src\routes\guestbook\+page.svelte` file. You'll need to add your Firebase config to the `firebaseConfig` variable.
+## Developing
 
-Publish to Vercel or another host of your choice!
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-Profit?
+```bash
+npm run dev
 
-Please also consider starring the repo if you like it! It helps me out a lot.
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-Also, if you plan on using this template, please mention this :)
+## Building
 
-## License
+To create a production version of your app:
 
-MIT
+```bash
+npm run build
+```
 
-## Donate
+You can preview the production build with `npm run preview`.
 
-SOL: `HWFvo1CCgeVwae3E7NvWfpH89mmzReRboKMfqzBWawpa`
-
-ETH or any EVM chain: `0x9486DD60CE06C694aeb36208FD8b8a33225614Af`
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
