@@ -156,6 +156,29 @@
 			text: "As an IT Manager and Business Owner, I've hired many developers over the years, but Posandu truly stands out. I hired Posandu to complete an entire suite of custom management tools for a private company (CRM, Ticket Management, etc). His ability to quickly grasp complex project requirements and deliver effective solutions with minimal oversight is a breath of fresh air in the dev community. He consistently produces quality code that works seamlessly. He is easily my top choice for future development projects."
 		}
 	];
+
+	const SOCIALS = [
+		{
+			name: 'Twitter',
+			link: 'https://twitter.com/posandu',
+			username: 'posandu'
+		},
+		{
+			name: 'Email',
+			link: 'mailto:posandumapa@gmail.com',
+			username: 'posandumapa[at]gmail.com'
+		},
+		{
+			name: 'Discord',
+			link: '#',
+			username: 'posandu'
+		},
+		{
+			name: 'GitHub',
+			link: 'https://github.com/posandu',
+			username: 'posandu'
+		}
+	];
 </script>
 
 <h1 class="title mb-4 text-4xl font-bold">Hey, I'm Posandu</h1>
@@ -243,5 +266,30 @@
 				<p class="text-sm font-semibold text-gray-900">{testimonial.name}</p>
 			</div>
 		</div>
+	{/each}
+</div>
+
+<a
+	href="https://read.cv/posandu"
+	class="mt-4 inline-block rounded-full bg-gray-800 px-4 py-2 text-sm text-white shadow transition-all hover:bg-gray-900"
+	target="_blank"
+>
+	View my resume
+</a>
+
+<div class="mt-16">
+	<h2 class="title text-3xl font-bold">Contact Me</h2>
+
+	<p class="mt-2 mb-8 text-gray-500">Drop a hi or something.</p>
+
+	{#each SOCIALS as social}
+		<a
+			href={social.link}
+			target="_blank"
+			class="mb-2 flex items-center gap-2 rounded-lg border border-gray-100 bg-white p-4 text-gray-600 transition-all hover:border-gray-200 hover:shadow-sm"
+		>
+			<span class="font-medium">{social.name}</span>
+			<span class="text-sm text-gray-400">@{social.username}</span>
+		</a>
 	{/each}
 </div>
