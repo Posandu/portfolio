@@ -181,31 +181,32 @@
 	];
 </script>
 
-<h1 class="title mb-4 text-4xl font-bold">Hey, I'm Posandu</h1>
+<h1 class="title mb-4 text-4xl md:text-5xl">Hey, I'm Posandu</h1>
 
-<p class="text-xl text-gray-500">Software developer & student.</p>
+<p class="text-subtext text-lg md:text-xl">Software developer & student.</p>
 
-<div class="mt-4 max-w-xl text-gray-800">
+<div class="mt-4 max-w-xl text-sm text-gray-800 md:text-base">
 	Since 2020, I've been building software for clients and personal projects. I share my learning
 	experiences on my <a href="https://tronic247.com" target="_blank">blog</a>. I've worked on
 	Enterprise applications for various clients, gaining valuable experience along the way. When I'm
 	not coding, you'll find me listening to
-	<a href="https://www.last.fm/user/posandu" target="_blank">music</a>, riding my bike, or taking
-	<a href="/photos">photos</a>.
+	<a href="https://www.last.fm/user/posandu" target="_blank">music</a>, or riding my bike.
 </div>
 
-<div class="my-16 h-[1px] w-full rounded-full bg-black/10"></div>
+<div class="my-12 h-[1px] w-full rounded-full bg-black/10 md:my-16"></div>
 
-<h2 class="title text-3xl font-bold">Projects</h2>
+<h2 class="title text-2xl md:text-3xl">Projects</h2>
 
-<p class="mt-2 mb-8 text-gray-500">Some of my projects.</p>
+<p class="text-subtext mt-2 mb-6 md:mb-8">Some of my projects.</p>
 
 <div class="space-y-4">
 	{#each PROJECTS as project}
-		<div class="group flex rounded-lg bg-gray-50 p-4 transition-all hover:bg-gray-100">
+		<div
+			class="group bg-box border-subtext/10 flex flex-col rounded-lg border p-3 transition-all hover:bg-gray-100 md:flex-row md:p-4"
+		>
 			<a
 				href={project.link}
-				class="flex min-w-[250px] items-baseline justify-start border-none font-semibold"
+				class="mb-2 flex min-w-[200px] items-baseline justify-start border-none font-semibold md:mb-0 md:min-w-[250px]"
 				target="_blank"
 				style="letter-spacing: -0.5px;"
 			>
@@ -226,44 +227,46 @@
 				</svg>
 			</a>
 
-			<p class="inline text-gray-500">{project.description}</p>
+			<p class="text-subtext text-sm md:text-base">{project.description}</p>
 		</div>
 	{/each}
 </div>
 
-<h2 class="title mt-16 text-3xl font-bold">Skills</h2>
+<h2 class="title mt-12 text-2xl font-bold md:mt-16 md:text-3xl">Skills</h2>
 
-<div class="mt-2 mb-8 text-gray-500">Here are some of the skills I've learned over the years.</div>
+<div class="text-subtext mt-2 mb-6 text-sm md:mb-8 md:text-base">
+	Here are some of the skills I've learned over the years.
+</div>
 
-{#each SKILLS as skill, i}
-	<div
-		class="group relative inline-flex size-16 items-center justify-center overflow-hidden rounded-full bg-gray-800 text-white shadow transition-all hover:z-10 hover:mr-0 hover:ml-2 hover:translate-y-[-2px] hover:shadow-lg {i <
-		SKILLS.length - 1
-			? '-mr-2'
-			: ''}"
-	>
-		<div class="size-8">{@html skill.icon}</div>
-
+<div class="flex flex-wrap gap-2 md:gap-0">
+	{#each SKILLS as skill, i}
 		<div
-			class="absolute top-1/2 left-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-black/80 opacity-0 transition-all group-hover:opacity-100"
+			class="group relative inline-flex size-12 items-center justify-center overflow-hidden rounded-full bg-gray-800 text-white shadow transition-all hover:z-10 hover:translate-y-[-2px] hover:shadow-lg md:size-16 {i <
+				SKILLS.length - 1 && 'md:-mr-2'}"
 		>
-			<p class="text-xs">{skill.name}</p>
+			<div class="size-6 md:size-8">{@html skill.icon}</div>
+
+			<div
+				class="absolute top-1/2 left-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-black/80 opacity-0 transition-all group-hover:opacity-100"
+			>
+				<p class="text-[10px] md:text-xs">{skill.name}</p>
+			</div>
 		</div>
-	</div>
-{/each}
+	{/each}
+</div>
 
-<h2 class="title mt-16 text-3xl font-bold">Hire Me</h2>
+<h2 class="title mt-12 text-2xl font-bold md:mt-16 md:text-3xl">Hire Me</h2>
 
-<p class="mt-2 mb-8 text-gray-500">
+<p class="text-subtext mt-2 mb-6 text-sm md:mb-8 md:text-base">
 	Interested in hiring me? I'm currently available for new projects.
 </p>
 
 <div class="space-y-4">
 	{#each TESTIMONIALS as testimonial}
-		<div class="rounded-xl border border-gray-100 bg-white p-6">
-			<p class="text-gray-600">{testimonial.text}</p>
-			<div class="mt-4 flex items-center gap-3">
-				<p class="text-sm font-semibold text-gray-900">{testimonial.name}</p>
+		<div class="bg-box border-subtext/10 rounded-xl border p-4 md:p-6">
+			<p class="text-sm text-gray-600 md:text-base">{testimonial.text}</p>
+			<div class="mt-3 flex items-center gap-3 md:mt-4">
+				<p class="text-xs font-semibold text-gray-900 md:text-sm">{testimonial.name}</p>
 			</div>
 		</div>
 	{/each}
@@ -271,25 +274,25 @@
 
 <a
 	href="https://read.cv/posandu"
-	class="mt-4 inline-block rounded-full bg-gray-800 px-4 py-2 text-sm text-white shadow transition-all hover:bg-gray-900"
+	class="mt-4 inline-block rounded-full bg-gray-800 px-3 py-1.5 text-xs text-white shadow transition-all hover:bg-gray-900 md:px-4 md:py-2 md:text-sm"
 	target="_blank"
 >
 	View my resume
 </a>
 
-<div class="mt-16">
-	<h2 class="title text-3xl font-bold">Contact Me</h2>
+<div class="mt-12 md:mt-16">
+	<h2 class="title text-2xl font-bold md:text-3xl">Contact Me</h2>
 
-	<p class="mt-2 mb-8 text-gray-500">Drop a hi or something.</p>
+	<p class="text-subtext mt-2 mb-6 text-sm md:mb-8 md:text-base">Drop a hi.</p>
 
-	{#each SOCIALS as social}
-		<a
-			href={social.link}
-			target="_blank"
-			class="mb-2 flex items-center gap-2 rounded-lg border border-gray-100 bg-white p-4 text-gray-600 transition-all hover:border-gray-200 hover:shadow-sm"
-		>
-			<span class="font-medium">{social.name}</span>
-			<span class="text-sm text-gray-400">@{social.username}</span>
-		</a>
-	{/each}
+	<div class="space-y-2 md:space-y-3">
+		{#each SOCIALS as social}
+			<div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
+				<span class="text-sm font-medium md:text-base">{social.name}</span>
+				<a href={social.link} class="text-subtext text-sm md:text-base" target="_blank"
+					>{social.name !== 'Email' ? `@${social.username}` : social.link}</a
+				>
+			</div>
+		{/each}
+	</div>
 </div>

@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @theme {
 	--font-sans: 'Inter Variable', sans-serif;
+	--font-fancy: 'EB Garamond Variable', serif;
+
+	--color-subtext: #707070;
+	--color-box: #f7f7f7;
 }
 
 @layer components {
@@ -12,8 +16,7 @@
 body {
 	position: relative;
 	line-height: 28px;
-
-	@apply bg-gray-100;
+	background-color: #f8f5f2;
 }
 
 a {
@@ -22,4 +25,10 @@ a {
 
 hr {
 	@apply my-16 border-gray-100;
+}
+
+h1,
+h2 {
+	color: #443627;
+	font-family: var(--font-fancy);
 }
