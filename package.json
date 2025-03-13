@@ -46,5 +46,13 @@
 		"svelte-ripple-action": "^1.0.6",
 		"svelte-seo": "^1.6.1",
 		"unplugin-icons": "^0.19.3"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@sveltejs/kit",
+			"esbuild",
+			"protobufjs",
+			"sharp"
+		]
 	}
 }

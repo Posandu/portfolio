@@ -15,42 +15,42 @@
 	const experiences: Experience[] = [
 		{
 			title: 'Full Stack Developer',
-			company: 'Freelance',
-			type: 'Freelance',
+			company: 'Independent',
+			type: 'Freelance', 
 			startDate: '2023-08',
 			endDate: null,
 			location: 'Remote',
-			skills: ['Node.js', 'Responsiveness']
+			skills: ['Node.js', 'Responsive Design', 'Full Stack Development']
 		},
 		{
-			title: 'Technical Writer',
+			title: 'Technical Content Creator',
 			company: 'Tronic247',
 			type: 'Full-time',
 			startDate: '2020-04',
 			endDate: null,
 			location: 'Sri Lanka',
-			description: 'Tronic247 is a blog where I write articles',
-			skills: ['Node.js', 'Responsiveness']
+			description: 'Curate and publish comprehensive technical articles and tutorials on web development',
+			skills: ['Technical Writing', 'Web Development', 'Content Strategy']
 		},
 		{
-			title: 'Full Stack Developer',
-			company: 'Contract',
+			title: 'Software Engineer',
+			company: 'Contract Position',
 			type: 'Contract',
 			startDate: '2023-09',
 			endDate: '2024-02',
 			location: 'United States · Remote',
-			skills: ['Node.js', 'Responsiveness']
+			skills: ['Full Stack Development', 'System Architecture', 'API Design']
 		},
 		{
-			title: 'Full Stack Developer',
+			title: 'Software Developer',
 			company: 'Realm Labs AI',
 			type: 'Part-time',
 			startDate: '2023-02',
 			endDate: '2023-07',
 			location: 'New York, United States · Remote',
 			description:
-				'Worked with Sveltekit and I learned about some AI things like stable diffusion.',
-			skills: ['Node.js', 'Responsiveness']
+				'Engineered solutions using SvelteKit and implemented AI technologies including Stable Diffusion models',
+			skills: ['SvelteKit', 'AI Integration', 'Machine Learning']
 		}
 	];
 </script>
@@ -71,7 +71,7 @@
 				<p class="text-sm text-base-content/80 mb-2">{experience.description}</p>
 			{/if}
 			<p class="text-sm text-base-content/80">
-				<strong>Skills:</strong>
+				<strong>Expertise:</strong>
 				{experience.skills.join(', ')}
 			</p>
 		</div>

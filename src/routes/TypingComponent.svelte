@@ -10,7 +10,7 @@
 		speed?: number;
 	}
 
-	let { text = '', speed = 10 }: Props = $props();
+	let { text = '', speed = 20 }: Props = $props();
 
 	let textArray = [...text];
 	let textLength = textArray.length;
@@ -48,7 +48,7 @@
 
 	@keyframes fadeIn {
 		0% {
-			transform: translateY(-2px);
+			transform: translateY(-4px);
 			opacity: 0;
 		}
 		100% {

@@ -44,8 +44,7 @@
 		<img
 			src="https://avatars.githubusercontent.com/u/76736580?v=4?v=3&s=200"
 			alt="Profile"
-			style="animation-duration: 20s;"
-			class="rounded-full w-48 h-48 animate-spin"
+			class="rounded-full size-48"
 		/>
 	</div>
 </div>
@@ -74,13 +73,6 @@
 			{:else}
 				<p class="text-lg font-bold">Not listening to anything right now</p>
 			{/if}
-
-			<a
-				href="https://www.tronic247.com/adding-your-discord-status-to-your-website"
-				class="text-sm mt-4 block"
-			>
-				Learn how I made this
-			</a>
 		</div>
 
 		<div class="bg-base-200 rounded-xl p-6 flex-1">
@@ -91,28 +83,21 @@
 	</div>
 
 	<div
-		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-5 py-4 rounded-xl text-lg relative z-10"
+		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-8 py-4 rounded-xl text-lg relative z-10"
 	>
 		<p>
-			I am a student @ <a
-				target="_blank"
-				href="https://nsbm.ac.lk"
-				class="font-semibold text-blue-400">NSBM</a
-			>
-			by day, developer by night who is passionate about everything related to
-			<span class="font-semibold text-blue-400">computers</span>. I also explore
-			<span class="font-semibold text-green-400">software development</span>,
-			<span class="font-semibold text-indigo-400">machine learning (ML)</span>, and
-			<span class="font-semibold text-green-400">web3</span>
-			projects. I am proficient in
+			Since 2020, I've been building software for clients and personal projects. I work with
 			<span class="font-semibold text-yellow-400">JavaScript</span>,
 			<span class="font-semibold text-blue-400">CSS</span>, and
-			<span class="font-semibold text-orange-400">Svelte</span> but I know some
-			<span class="font-semibold text-[#dea584]">Rust</span> too.
+			<span class="font-semibold text-orange-400">Svelte</span>, with sometimes
+			<span class="font-semibold text-[#dea584]">Rust</span>. I explore
+			<span class="font-semibold text-green-400">software development</span>,
+			<span class="font-semibold text-indigo-400">machine learning (ML)</span>, and
+			<span class="font-semibold text-green-400">web3</span> projects.
 		</p>
 
 		<p class="my-2">
-			I have experience in creating <b>enterprise software</b> and hold a certification from
+			I've worked on <b>Enterprise applications</b> for various clients. I hold a certification from
 			<a
 				class="font-semibold text-red-400 hover:ring-4 rounded-lg ring-red-500/20 transition-all"
 				href="https://www.codingame.com/certification/UuE-yYkOPsUD3F6aCWZ5ZA">Codingame</a
@@ -121,10 +106,10 @@
 		</p>
 
 		<p class="my-2">
-			Other than that, I enjoy cycling, reading, and writing articles on my blog (<a
-				href="https://tronic247.com"
-				class="link-hover">Tronic247</a
-			>)
+			I share my learning experiences on my blog (<a href="https://tronic247.com" class="link-hover"
+				>Tronic247</a
+			>). When I'm not coding, you'll find me listening to music,
+			<a href="/photos" class="link-hover">taking photos</a>, or just riding my bike.
 		</p>
 	</div>
 </div>
