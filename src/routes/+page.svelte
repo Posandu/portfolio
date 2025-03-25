@@ -35,7 +35,9 @@
 			<TypingComponent text="Posandu Mapa" />
 		</h1>
 
-		<h2 class="text-2xl opacity-40">Fullstack developer</h2>
+		<h2 class="text-2xl opacity-40">
+			Developer
+		</h2>
 
 		<a href="/#contact" class="btn btn-primary mt-4" use:ripple>Say hi</a>
 	</div>
@@ -83,7 +85,7 @@
 	</div>
 
 	<div
-		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-8 py-4 rounded-xl text-lg relative z-10"
+		class="md:col-span-2 col-span-1 leading-8 bg-base-300 px-6 py-4 rounded-xl text-lg relative z-10"
 	>
 		<p>
 			Since 2020, I've been building software for clients and personal projects. I work with
